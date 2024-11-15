@@ -1,0 +1,10 @@
+/* Home.css */
+.home {
+    background-image: url('../../public/images/16by9Version.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    overflow: hidden;
+    height: 100vh;
+    width: 100%;
+  }
