@@ -1,4 +1,12 @@
 /* Home.css */
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
 .home {
     background-image: url('../../public/images/16by9Version.png');
     background-size: cover;

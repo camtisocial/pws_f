@@ -1,19 +1,16 @@
 import React from 'react';
+import Card from '../components/Card';
+import Hand from '../components/Hand';
 import '../css/home.css';
 import { Link } from 'react-router-dom';
 
 function Home() {
   return (
     <div className="home">
-      <h1>HOMEPAGE</h1>
-      <nav>
-        <ul>
-          <li><Link to="/about">About</Link></li>
-          <li><Link to="/contact">Contact</Link></li>
-          <li><Link to="/guestBook">Guest Book</Link></li>
-          <li><Link to="/blog">Blog</Link></li>
-        </ul>
-      </nav>
+      <h1>Welcome to My Homepage</h1>
+      <Hand />
+      <div>
+      </div>
     </div>
   );
 }
