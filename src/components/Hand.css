@@ -1,14 +1,13 @@
 .hand-container {
     position: fixed;
-    left: 1%;
-    width: 60em;
-    margin-left: 3em;
-    width: 60em;
-    bottom: -75%;
+    margin-left: 3vw;
+    width: 50vw;
+    bottom: -70%;
     transition: bottom 0.5s ease;
   }
   
   .hover-area {
+    border: 2px solid red;
     width: 25vw;
     height: 30vw;
     position: absolute;
@@ -21,7 +20,36 @@
   .hover-area:hover + .hand-container {
     bottom: -35%;
   }
+
+  .hover-border {
+    border: 2px solid purple;
+  }
+
+  .cards {
+    position: absolute;
+    bottom: 85%;
+    margin-left: 32vw;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    width: 30vw;
+    height: auto;
+    z-index: 2;
+  }
   
+  .card {
+    position: absolute;
+    width: 45vw;
+    height: auto;
+    transform-origin: bottom center;
+    transition: transform 0.5s ease, z-index 0.5s ease;
+
+  }
+
+  .card:hover {
+    z-index: 10;
+  }
+
   .hand {
     position: relative;
     width: 100%;
@@ -33,7 +61,7 @@
     position: absolute;
     width: 100%;
     height: auto;
-    z-index: 2;
+    z-index: 3;
     bottom: 3%;
     left: 46%;
     transform: translateX(-50%);
