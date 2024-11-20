@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 const useCardEffects = () => {
   useEffect(() => {
     const cards = document.querySelectorAll('.card');
-    const spreadAngle = 40; 
+    const spreadAngle = 60; 
     const totalCards = cards.length;
 
     function positionCards() {
@@ -20,29 +20,23 @@ const useCardEffects = () => {
 
       cards.forEach((card, index) => {
         const baseAngle = (-spreadAngle / 2) + (index * (spreadAngle / (totalCards - 1)));
-        let selectedAngle
+        let selectedAngle;
         if (index === hoveredIndex && index === 0) {
           selectedAngle = baseAngle - 5;
         } else if (index === hoveredIndex && index === 1) {
-          selectedAngle = baseAngle -5;
+          selectedAngle = baseAngle - 5;
         } else if (index === hoveredIndex && index === 2) {
-          selectedAngle = baseAngle-2;
+          selectedAngle = baseAngle - 2;
         } else if (index === hoveredIndex && index === 3) {
           selectedAngle = baseAngle + 1;
         }
         card.style.transform = `rotate(${selectedAngle}deg) translateY(-${raiseAmount}px)`;
-
       });
-    }
-
-    function centerCard(e) {
-      console.log('centerCard called');
     }
 
     cards.forEach((card) => {
       card.addEventListener('mouseover', hoverEffect);
       card.addEventListener('mouseout', positionCards);
-      card.addEventListener('click', centerCard);
       console.log('Event listeners added to card:', card); 
     });
 
@@ -52,7 +46,6 @@ const useCardEffects = () => {
       cards.forEach((card) => {
         card.removeEventListener('mouseover', hoverEffect);
         card.removeEventListener('mouseout', positionCards);
-        card.removeEventListener('click', centerCard);
         console.log('Event listeners removed from card:', card);
       });
     };
