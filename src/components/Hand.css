@@ -7,18 +7,17 @@
   }
   
   .hover-area {
-    border: 2px solid red;
-    width: 25vw;
-    height: 30vw;
+    width: 30vw;
+    height: 18vw;
     position: absolute;
     bottom: -10%;
-    left: 20%;
+    left: 15%;
     z-index: 20;
     cursor: pointer;
   }
   
-  .hover-area:hover + .hand-container {
-    bottom: -35%;
+  .hand-container.raised {
+    bottom: -45%;
   }
 
   .hover-border {
@@ -27,7 +26,7 @@
 
   .cards {
     position: absolute;
-    bottom: 85%;
+    bottom: 75%;
     margin-left: 32vw;
     transform: translateX(-50%);
     display: flex;
@@ -39,15 +38,12 @@
   
   .card {
     position: absolute;
-    width: 45vw;
+    width: 15vw;
     height: auto;
     transform-origin: bottom center;
-    transition: transform 0.5s ease, z-index 0.5s ease;
+    transition: transform 0.25s ease, z-index 0.5s ease;
+    cursor: pointer;
 
-  }
-
-  .card:hover {
-    z-index: 10;
   }
 
   .hand {
@@ -64,6 +60,7 @@
     z-index: 3;
     bottom: 3%;
     left: 46%;
+    pointer-events: none;
     transform: translateX(-50%);
   }
   

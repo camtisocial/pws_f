@@ -10,32 +10,40 @@ const useCardEffects = () => {
       cards.forEach((card, index) => {
         const angle = (-spreadAngle / 2) + (index * (spreadAngle / (totalCards - 1)));
         card.style.transform = `rotate(${angle}deg) translateX(${index * 10 - (totalCards * 5)}px)`;
+        card.style.zIndex = index; 
       });
     }
 
     function hoverEffect(e) {
-      console.log('Hover effect triggered');
       const hoveredIndex = Array.from(cards).indexOf(e.target);
+      const raiseAmount = 35;
 
       cards.forEach((card, index) => {
-        if (index < hoveredIndex) {
-          card.style.transform = `translateX(-10px) rotate(-5deg)`;
-        } else if (index === hoveredIndex) {
-          card.style.transform = `translateY(-20px) rotate(0deg) scale(1.1)`;
-        } else {
-          card.style.transform = `translateX(10px) rotate(5deg)`;
+        const baseAngle = (-spreadAngle / 2) + (index * (spreadAngle / (totalCards - 1)));
+        let selectedAngle
+        if (index === hoveredIndex && index === 0) {
+          selectedAngle = baseAngle - 5;
+        } else if (index === hoveredIndex && index === 1) {
+          selectedAngle = baseAngle -5;
+        } else if (index === hoveredIndex && index === 2) {
+          selectedAngle = baseAngle-2;
+        } else if (index === hoveredIndex && index === 3) {
+          selectedAngle = baseAngle + 1;
         }
+        card.style.transform = `rotate(${selectedAngle}deg) translateY(-${raiseAmount}px)`;
+
       });
     }
 
-    function resetPositions() {
-      console.log('Reset positions triggered'); // Debugging
-      positionCards();
+    function centerCard(e) {
+      console.log('centerCard called');
     }
 
     cards.forEach((card) => {
       card.addEventListener('mouseover', hoverEffect);
-      card.addEventListener('mouseout', resetPositions);
+      card.addEventListener('mouseout', positionCards);
+      card.addEventListener('click', centerCard);
+      console.log('Event listeners added to card:', card); 
     });
 
     positionCards();
@@ -43,7 +51,9 @@ const useCardEffects = () => {
     return () => {
       cards.forEach((card) => {
         card.removeEventListener('mouseover', hoverEffect);
-        card.removeEventListener('mouseout', resetPositions);
+        card.removeEventListener('mouseout', positionCards);
+        card.removeEventListener('click', centerCard);
+        console.log('Event listeners removed from card:', card);
       });
     };
   }, []); 
