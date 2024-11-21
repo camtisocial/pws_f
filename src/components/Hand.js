@@ -41,6 +41,7 @@ function Hand() {
         card.style.pointerEvents = 'auto';
       });
 
+      hoverArea.style.pointerEvents = 'auto';
       setSelectedCard(null);
     }
 
@@ -50,7 +51,13 @@ function Hand() {
     cards.forEach((card) => {
       card.addEventListener('mouseover', handleMouseOver);
       card.addEventListener('mouseout', handleMouseOut);
-      card.addEventListener('click', () => setSelectedCard(card));
+      card.addEventListener('click', (e) => {
+        if (selectedCard === card) {
+          console.log('Clicked on the selected card');
+        } else {
+          setSelectedCard(card);
+        }
+      });
     });
 
     overlayBottom.addEventListener('click', resetFocus);
@@ -65,6 +72,9 @@ function Hand() {
       overlayBottom.style.pointerEvents = 'auto';
       overlayTop.style.opacity = '1.0';
       overlayTop.style.pointerEvents = 'auto';
+
+      selectedCard.removeEventListener('mouseover', handleMouseOver);
+      hoverArea.style.pointerEvents = 'none';
     }
 
     return () => {
@@ -74,11 +84,18 @@ function Hand() {
       cards.forEach((card) => {
         card.removeEventListener('mouseover', handleMouseOver);
         card.removeEventListener('mouseout', handleMouseOut);
-        card.removeEventListener('click', () => setSelectedCard(card));
+        card.removeEventListener('click', (e) => {
+          if (selectedCard === card) {
+            console.log('Clicked on the selected card');
+          } else {
+            setSelectedCard(card);
+          }
+        });
       });
 
       overlayBottom.removeEventListener('click', resetFocus);
       overlayTop.removeEventListener('click', resetFocus);
+
     };
   }, [selectedCard]);
 

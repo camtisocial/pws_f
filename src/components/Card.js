@@ -9,11 +9,11 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
 
     function positionCards() {
       cards.forEach((card, index) => {
-        if (card !== selectedCard) {
-          const angle = (-spreadAngle / 2) + (index * (spreadAngle / (totalCards - 1)));
-          card.style.transform = `rotate(${angle}deg) translateX(${index * 10 - (totalCards * 5)}px)`;
-          card.style.zIndex = index - 1; 
-        }
+         if (card !== selectedCard) {
+           const angle = (-spreadAngle / 2) + (index * (spreadAngle / (totalCards - 1)));
+           card.style.transform = `rotate(${angle}deg) translateX(${index * 10 - (totalCards * 5)}px)`;
+           card.style.zIndex = index - 1; 
+         }
       });
     }
 
@@ -40,8 +40,6 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
     }
 
     function rotateToMouse(e) {
-      if (!selectedCard) return; // Ensure selectedCard is not null
-
       const mouseX = e.clientX;
       const mouseY = e.clientY;
       const leftX = mouseX - bounds.x;
@@ -73,34 +71,22 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
       card.style.transition = 'transform 0.8s ease';
       card.style.zIndex = 6;
 
-      // Prevent the overlay from blocking the centered card
-      card.style.pointerEvents = 'none';
-
       // Add 3D effect
       bounds = card.getBoundingClientRect();
 
-      if (selectedCard) {
-        document.addEventListener('mousemove', rotateToMouse);
-      }
+
+      card.addEventListener('mousemove', rotateToMouse);
     }
 
     if (selectedCard) {
       applyCardEffects(selectedCard);
+    } else {
+      positionCards();
     }
 
     cards.forEach((card) => {
       card.addEventListener('mouseover', hoverEffect);
       card.addEventListener('mouseout', positionCards);
-      card.addEventListener('click', (e) => {
-        if (selectedCard === card) {
-          setSelectedCard(null);
-          positionCards();
-        } else {
-          setSelectedCard(card);
-          applyCardEffects(card);
-        }
-      });
-      console.log('Event listeners added to card:', card); 
     });
 
     positionCards();
@@ -109,18 +95,9 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
       cards.forEach((card) => {
         card.removeEventListener('mouseover', hoverEffect);
         card.removeEventListener('mouseout', positionCards);
-        card.removeEventListener('click', (e) => {
-          if (selectedCard === card) {
-            setSelectedCard(null);
-            positionCards();
-          } else {
-            setSelectedCard(card);
-            applyCardEffects(card);
-          }
-        });
-        console.log('Event listeners removed from card:', card);
+        card.removeEventListener('mousemove', rotateToMouse)
       });
-      document.removeEventListener('mousemove', rotateToMouse); // Clean up event listener
+      // document.removeEventListener('mousemove', rotateToMouse); // Clean up event listener
     };
   }, [selectedCard, setSelectedCard]); 
 };
