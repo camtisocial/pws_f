@@ -1,15 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import useCardEffects from './Card';
 import './Hand.css';
 
 function Hand() {
   useCardEffects(); // Calling the custom hook to apply hover effects
+  const overlayBottomRef = useRef(null);
+  const overlayTopRef = useRef(null);
 
   useEffect(() => {
     const cards = document.querySelectorAll('.card');
     const handContainer = document.querySelector('.hand-container');
     const hoverArea = document.querySelector('.hover-area');
-    const overlay = document.querySelector('.overlay');
+    const overlayBottom = overlayBottomRef.current;
+    const overlayTop = overlayTopRef.current;
 
     function handleMouseOver() {
       handContainer.classList.add('raised');
@@ -26,7 +29,8 @@ function Hand() {
       handContainer.classList.remove('raised');
 
       //darken screen
-      overlay.style.opacity= '1.0';
+      overlayBottom.style.opacity= '1.0';
+      overlayTop.style.opacity= '1.0';
 
       //center card
       let translateX = 13;
@@ -34,7 +38,7 @@ function Hand() {
       clickedCard.style.transform = 'none';
       clickedCard.style.transform = `translate( ${translateX}vw, ${translateY}vw) scale(1.1)`;
       clickedCard.style.transition = 'transform 0.8s ease';
-      clickedCard.style.zIndex = 100; 
+      clickedCard.style.zIndex = 6; 
     }
 
     function resetFocus() {
@@ -42,8 +46,10 @@ function Hand() {
       handContainer.classList.add('raised');
 
       // Hide the overlay
-      overlay.style.opacity = '0';
-      overlay.style.pointerEvents = 'none';
+      overlayBottom.style.opacity = '0';
+      overlayTop.style.opacity = '0';
+      overlayBottom.style.pointerEvents = 'none';
+      overlayTop.style.pointerEvents = 'none';
 
       // Reset the cards
       cards.forEach((card) => {
@@ -72,7 +78,8 @@ function Hand() {
         card.removeEventListener('click', centerCard);
       });
 
-      overlay.removeEventListener('click', resetFocus);
+      overlayBottom.removeEventListener('click', resetFocus);
+      overlayTop.removeEventListener('click', resetFocus);
     };
   }, []);
 
@@ -86,10 +93,11 @@ function Hand() {
           <img src="/images/jokerCard.png" alt="Card 1" className="card" />
           <img src="/images/floppyCard.png" alt="Card 2" className="card" />
           <img src="/images/quillCard.png" alt="Card 3" className="card" />
+          <div className="overlay-bottom" ref={overlayBottomRef}></div>
+          <img src="/images/pixelthumb.png" alt="Thumb" className="thumb" />
+          <div className="overlay-top" ref={overlayTopRef}></div>
         </div>
-        <img src="/images/pixelthumb.png" alt="Thumb" className="thumb" />
       </div>
-      <div className="overlay"></div>
     </div>
   );
 }

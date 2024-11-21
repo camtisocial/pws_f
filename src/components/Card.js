@@ -10,7 +10,7 @@ const useCardEffects = () => {
       cards.forEach((card, index) => {
         const angle = (-spreadAngle / 2) + (index * (spreadAngle / (totalCards - 1)));
         card.style.transform = `rotate(${angle}deg) translateX(${index * 10 - (totalCards * 5)}px)`;
-        card.style.zIndex = index; 
+        card.style.zIndex = index-1; 
       });
     }
 
