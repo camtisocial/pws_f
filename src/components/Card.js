@@ -5,6 +5,8 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
     const cards = document.querySelectorAll('.card');
     const spreadAngle = 60; 
     const totalCards = cards.length;
+    let translateX = 13;
+    let translateY = -25;
     let bounds;
 
     function positionCards() {
@@ -62,10 +64,13 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
       `;
     }
 
+    function HandleMouseOutSelected() {
+      selectedCard.style.transform = `translate(${translateX}vw, ${translateY}vw)`;
+      selectedCard.style.transitionDuration = '300ms';
+    }
+
     function applyCardEffects(card) {
       // Center card
-      let translateX = 13;
-      let translateY = -25;
       console.log(`translateX: ${translateX}, translateY: ${translateY}`);
       card.style.transform = `translate(${translateX}vw, ${translateY}vw)`;
       card.style.transition = 'transform 0.8s ease';
@@ -73,9 +78,8 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
 
       // Add 3D effect
       bounds = card.getBoundingClientRect();
-
-
       card.addEventListener('mousemove', rotateToMouse);
+      card.addEventListener('mouseout', HandleMouseOutSelected);
     }
 
     if (selectedCard) {
@@ -96,8 +100,8 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
         card.removeEventListener('mouseover', hoverEffect);
         card.removeEventListener('mouseout', positionCards);
         card.removeEventListener('mousemove', rotateToMouse)
+        card.removeEventListener('mouseout', HandleMouseOutSelected)
       });
-      // document.removeEventListener('mousemove', rotateToMouse); // Clean up event listener
     };
   }, [selectedCard, setSelectedCard]); 
 };
