@@ -7,7 +7,7 @@ function Hand() {
   const overlayTopRef = useRef(null);
   const [selectedCard, setSelectedCard] = useState(null);
 
-  useCardEffects(selectedCard); // Pass the selectedCard state to the custom hook
+  useCardEffects(selectedCard, setSelectedCard);
 
   useEffect(() => {
     const cards = document.querySelectorAll('.card');
@@ -17,41 +17,30 @@ function Hand() {
     const overlayTop = overlayTopRef.current;
 
     function handleMouseOver() {
-      if (!selectedCard) {
-        handContainer.classList.add('raised');
-      }
+      handContainer.classList.add('raised');
     }
 
     function handleMouseOut() {
-      if (!selectedCard) {
-        handContainer.classList.remove('raised');
-      }
-    }
-
-    function selectCard(e) {
-      setSelectedCard(e.target);
+      handContainer.classList.remove('raised');
     }
 
     function resetFocus() {
       console.log('Resetting focus');
 
-      // Reset the hand and other cards
       handContainer.classList.add('raised');
 
-      // Hide the overlays
       overlayBottom.style.opacity = '0';
       overlayBottom.style.pointerEvents = 'none';
       overlayTop.style.opacity = '0';
       overlayTop.style.pointerEvents = 'none';
 
-      // Reset the cards
       cards.forEach((card) => {
+        card.style.transition = '0.25s ease';
         card.style.transform = '';
         card.style.zIndex = '';
         card.style.pointerEvents = 'auto';
       });
 
-      // Clear the selected card
       setSelectedCard(null);
     }
 
@@ -61,7 +50,7 @@ function Hand() {
     cards.forEach((card) => {
       card.addEventListener('mouseover', handleMouseOver);
       card.addEventListener('mouseout', handleMouseOut);
-      card.addEventListener('click', selectCard);
+      card.addEventListener('click', () => setSelectedCard(card));
     });
 
     overlayBottom.addEventListener('click', resetFocus);
@@ -70,26 +59,12 @@ function Hand() {
     if (selectedCard) {
       console.log('Selected card:', selectedCard);
 
-      // Lower hand
       handContainer.classList.remove('raised');
 
-      // Darken screen
       overlayBottom.style.opacity = '1.0';
       overlayBottom.style.pointerEvents = 'auto';
       overlayTop.style.opacity = '1.0';
       overlayTop.style.pointerEvents = 'auto';
-
-      // Center card
-      let translateX = 13;
-      let translateY = -25;
-      console.log(`translateX: ${translateX}, translateY: ${translateY}`);
-      selectedCard.style.transform = 'none';
-      selectedCard.style.transform = `translate(${translateX}vw, ${translateY}vw) scale(1.1)`;
-      selectedCard.style.transition = 'transform 0.8s ease';
-      selectedCard.style.zIndex = 6; // Ensure the clicked card is on top
-
-      // Prevent the overlay from blocking the centered card
-      selectedCard.style.pointerEvents = 'none';
     }
 
     return () => {
@@ -99,7 +74,7 @@ function Hand() {
       cards.forEach((card) => {
         card.removeEventListener('mouseover', handleMouseOver);
         card.removeEventListener('mouseout', handleMouseOut);
-        card.removeEventListener('click', selectCard);
+        card.removeEventListener('click', () => setSelectedCard(card));
       });
 
       overlayBottom.removeEventListener('click', resetFocus);
