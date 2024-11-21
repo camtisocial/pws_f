@@ -50,16 +50,15 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
         x: leftX - bounds.width / 2,
         y: topY - bounds.height / 2
       };
-      const distance = Math.sqrt(center.x ** 2 + center.y ** 2);
-      selectedCard.style.transitionDuration = '300ms'; // Speed up the 3D rotation animation
+      const maxRotation = 25;
+      const rotateX = (center.y / (bounds.height / 2)) * maxRotation;
+      const rotateY = -(center.x / (bounds.width / 2)) * maxRotation;
+      selectedCard.style.transitionDuration = '60ms'; // Speed up the 3D rotation animation
       selectedCard.style.transform = `
         translate(13vw, -25vw)
-        scale3d(1.07, 1.07, 1.07)
-        rotate3d(
-          ${center.y / 50},
-          ${-center.x / 50},
-          0,
-          ${Math.log(distance) * 4}deg
+        scale3d(1.10, 1.10, 1.10)
+        rotateX(${rotateX}deg)
+        rotateY(${rotateY}deg
         )
       `;
     }
@@ -70,16 +69,16 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
     }
 
     function applyCardEffects(card) {
-      // Center card
       console.log(`translateX: ${translateX}, translateY: ${translateY}`);
       card.style.transform = `translate(${translateX}vw, ${translateY}vw)`;
       card.style.transition = 'transform 0.8s ease';
       card.style.zIndex = 6;
 
-      // Add 3D effect
+      setTimeout(() => {
       bounds = card.getBoundingClientRect();
       card.addEventListener('mousemove', rotateToMouse);
       card.addEventListener('mouseout', HandleMouseOutSelected);
+      }, 800);
     }
 
     if (selectedCard) {

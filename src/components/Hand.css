@@ -41,6 +41,13 @@
   cursor: pointer;
 }
 
+.card.selected {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(-45deg, red, blue);
+  filter: blur(15px);
+  opacity: 0.5;
+}
+
 .hand {
   position: relative;
   width: 100%;
