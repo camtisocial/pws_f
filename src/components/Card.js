@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 const useCardEffects = (selectedCard, setSelectedCard) => {
   useEffect(() => {
     const cards = document.querySelectorAll('.card');
+    let backgroundElement = document.querySelector('.card-background');
     const spreadAngle = 60; 
     const totalCards = cards.length;
     let translateX = 13;
@@ -54,25 +55,27 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
         y: topY - bounds.height / 2
       };
       const maxRotation = 25;
-      const rotateX = (center.y / (bounds.height / 2)) * maxRotation;
+      const rotateX = 1.3*(center.y / (bounds.height / 2)) * maxRotation;
       const rotateY = -(center.x / (bounds.width / 2)) * maxRotation;
+
+      // Calculate the distance from the center of the card
+      const distanceFromCenter = Math.sqrt(center.x ** 2 + center.y ** 2);
+      const maxDistance = Math.sqrt((bounds.width / 2) ** 2 + (bounds.height / 2) ** 2);
+      const perspective = 4000 - (distanceFromCenter / maxDistance) * 500; // Adjust perspective based on distance
+
       selectedCard.style.transitionDuration = '60ms'; // Speed up the 3D rotation animation
       selectedCard.style.transform = `
         translate(13vw, -25vw)
         scale3d(1.10, 1.10, 1.10)
         rotateX(${rotateX}deg)
-        rotateY(${rotateY}deg
-        )
+        rotateY(${rotateY}deg)
+        perspective(${perspective}px)
       `;
     }
 
     function HandleMouseOutSelected() {
       selectedCard.style.transform = `translate(${translateX}vw, ${translateY}vw)`;
       selectedCard.style.transitionDuration = '300ms';
-    }
-
-    function add3dCssEffects() {
-      selectedCard.style.perspective = '1000px';
     }
 
     function applyCardEffects(card) {
@@ -85,8 +88,8 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
       bounds = card.getBoundingClientRect();
       card.addEventListener('mousemove', rotateToMouse);
       card.addEventListener('mouseout', HandleMouseOutSelected);
-      card.classList.add('selected');
       card.style.perspective = '2000px';
+      backgroundElement.style.opacity = '0.5';
       }, 800);
     }
 

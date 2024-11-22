@@ -106,6 +106,7 @@ function Hand() {
       <div className="hand-container">
         <img src="/images/pixelhand.png" alt="Hand" className="hand" />
         <div className="cards">
+          <div className="card-background"></div> {}
           <img src="/images/martiniCard.png" alt="Card 4" className="card" key="card-4" />
           <img src="/images/jokerCard.png" alt="Card 1" className="card" key="card-1" />
           <img src="/images/floppyCard.png" alt="Card 2" className="card" key="card-2" />

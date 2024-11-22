@@ -41,25 +41,23 @@
   transition: transform 0.25s ease, z-index 1.5s ease, scale3d 3s ease;
   cursor: pointer;
   perspective: 2000px; /* Enable perspective */
+  z-index: 2;
 }
 
-.card::before {
-  content: '';
+.card.background {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: inherit;
-  background: linear-gradient(-45deg, red, blue);
-  z-index: 1;
-  transform: translateZ(-50px);
-  opacity: 1;
+  top: -34%;
+  left: -30%;
+  width: 5vw;
+  height: 5vh;
+  border: 2px solid rgb(255, 0, 43);
+  background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+  z-index: 1; /* Ensure it is behind the card content */
+  pointer-events: none; /* Prevent it from blocking mouse events */
+  transform: translate(-50%, -50%);
+  opacity: 1; /* Set default opacity to 0 */
   transition: opacity 0.25s ease;
-}
-
-.card.selected::before {
-  opacity: 1.0;
+  /*filter: blur(10px); /* Add blur to create shadow effect */
 }
 
 .hand {
