@@ -34,8 +34,9 @@ function Hand() {
       overlayTop.style.opacity = '0';
       overlayTop.style.pointerEvents = 'none';
 
+      selectedCard.style.transition = '0.80s ease';
+
       cards.forEach((card) => {
-        card.style.transition = '0.25s ease';
         card.style.transform = '';
         card.style.zIndex = '';
         card.style.pointerEvents = 'auto';

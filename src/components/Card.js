@@ -15,6 +15,9 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
            const angle = (-spreadAngle / 2) + (index * (spreadAngle / (totalCards - 1)));
            card.style.transform = `rotate(${angle}deg) translateX(${index * 10 - (totalCards * 5)}px)`;
            card.style.zIndex = index - 1; 
+           setTimeout(() => {
+            card.style.transition = 'transform 0.25s ease';
+           }, 300);
          }
       });
     }
@@ -68,6 +71,10 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
       selectedCard.style.transitionDuration = '300ms';
     }
 
+    function add3dCssEffects() {
+      selectedCard.style.perspective = '1000px';
+    }
+
     function applyCardEffects(card) {
       console.log(`translateX: ${translateX}, translateY: ${translateY}`);
       card.style.transform = `translate(${translateX}vw, ${translateY}vw)`;
@@ -78,6 +85,8 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
       bounds = card.getBoundingClientRect();
       card.addEventListener('mousemove', rotateToMouse);
       card.addEventListener('mouseout', HandleMouseOutSelected);
+      card.classList.add('selected');
+      card.style.perspective = '2000px';
       }, 800);
     }
 
