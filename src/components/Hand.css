@@ -42,22 +42,44 @@
   cursor: pointer;
   perspective: 2000px; /* Enable perspective */
   z-index: 2;
+  transform-style: preserve-3d;
 }
 
-.card.background {
-  position: absolute;
-  top: -34%;
-  left: -30%;
-  width: 5vw;
-  height: 5vh;
-  border: 2px solid rgb(255, 0, 43);
+.card.glow {
+  z-index: 7;
+  pointer-events: none;
+  background-image: radial-gradient(circle at center, #ffffff22, #0000000f);
+  opacity: 1;
+}
+
+.card-background {
+  position: fixed;
+  bottom: -10vw;
+  left: 93%;
+  width: 20vw;
+  height: 25vw;
   background: linear-gradient(45deg, #ff9a9e, #fad0c4);
-  z-index: 1; /* Ensure it is behind the card content */
+  z-index: 4; /* Ensure it is behind the card content */
   pointer-events: none; /* Prevent it from blocking mouse events */
-  transform: translate(-50%, -50%);
-  opacity: 1; /* Set default opacity to 0 */
-  transition: opacity 0.25s ease;
-  /*filter: blur(10px); /* Add blur to create shadow effect */
+  opacity: 0; /* Set default opacity to 0 */
+  border-radius: 25px;
+  transition: opacity 1.25s ease;
+  filter: blur(2px); /* Add blur to create shadow effect */
+}
+
+.card-shadow{
+  position: fixed;
+  bottom: -10vw;
+  left: 102%;
+  width: 16vw;
+  height: 23vw;
+  background: black;
+  z-index: 4; /* Ensure it is behind the card content */
+  pointer-events: none; /* Prevent it from blocking mouse events */
+  opacity: 0; /* Set default opacity to 0 */
+  border-radius: 25px;
+  transition: opacity 1.25s ease;
+  filter: blur(10px); /* Add blur to create shadow effect */
 }
 
 .hand {

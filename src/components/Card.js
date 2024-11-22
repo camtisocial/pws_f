@@ -4,6 +4,7 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
   useEffect(() => {
     const cards = document.querySelectorAll('.card');
     let backgroundElement = document.querySelector('.card-background');
+    let backgroundShadow = document.querySelector('.card-shadow');
     const spreadAngle = 60; 
     const totalCards = cards.length;
     let translateX = 13;
@@ -55,7 +56,7 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
         y: topY - bounds.height / 2
       };
       const maxRotation = 25;
-      const rotateX = 1.3*(center.y / (bounds.height / 2)) * maxRotation;
+      const rotateX = 1.3 * (center.y / (bounds.height / 2)) * maxRotation;
       const rotateY = -(center.x / (bounds.width / 2)) * maxRotation;
 
       // Calculate the distance from the center of the card
@@ -71,9 +72,44 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
         rotateY(${rotateY}deg)
         perspective(${perspective}px)
       `;
+
+      backgroundElement.style.transition = 'transform 200ms ease'; // Speed up the 3D rotation animation
+      backgroundElement.style.transform = `
+        translate(-10vw, -12vw)
+        scale3d(1.10, 1.10, 1.10)
+        rotateX(${rotateX * 0.3}deg)
+        rotateY(${rotateY * 0.3}deg)
+        perspective(${perspective}px)
+      `;
+
+      backgroundShadow.style.transition = 'transform 60ms ease'; // Speed up the 3D rotation animation
+      backgroundShadow.style.transform = `
+        translate(-10vw, -12vw)
+        scale3d(1.10, 1.10, 1.10)
+        rotateX(${rotateX * 0.8}deg)
+        rotateY(${rotateY * 0.8}deg)
+      `;
+
+      // Glow circle
+      const glow = document.querySelector('.card-glow');
+      if (glow) {
+        glow.style.backgroundImage = `
+          radial-gradient(
+            circle at
+            ${leftX}px
+            ${topY}px,
+            #ffffff55,
+            #0000000f
+          )
+        `;
+      }
     }
 
     function HandleMouseOutSelected() {
+      backgroundElement.style.transitionDuration = 'transform 1900ms';
+      backgroundElement.style.transform = `translate(-10vw, -12vw)`;
+      backgroundShadow.style.transitionDuration = 'transform 1900ms';
+      backgroundShadow.style.transform = `translate(-10vw, -12vw)`;
       selectedCard.style.transform = `translate(${translateX}vw, ${translateY}vw)`;
       selectedCard.style.transitionDuration = '300ms';
     }
@@ -83,13 +119,21 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
       card.style.transform = `translate(${translateX}vw, ${translateY}vw)`;
       card.style.transition = 'transform 0.8s ease';
       card.style.zIndex = 6;
+      backgroundElement.style.transform = `translate(-10vw, -12vw)`;
+      backgroundShadow.style.transform = `translate(-10vw, -12vw)`;
 
       setTimeout(() => {
-      bounds = card.getBoundingClientRect();
-      card.addEventListener('mousemove', rotateToMouse);
-      card.addEventListener('mouseout', HandleMouseOutSelected);
-      card.style.perspective = '2000px';
-      backgroundElement.style.opacity = '0.5';
+        backgroundElement.style.transition = 'opacity 1s ease';
+        backgroundElement.style.opacity = '1';
+        backgroundShadow.style.transition = 'opacity 1s ease';
+        backgroundShadow.style.opacity = '0.7';
+      }, 350);
+      setTimeout(() => {
+        bounds = card.getBoundingClientRect();
+        card.addEventListener('mousemove', rotateToMouse);
+        card.addEventListener('mouseout', HandleMouseOutSelected);
+        card.style.perspective = '2000px';
+        card.classList.add('.card.glow');
       }, 800);
     }
 
@@ -102,17 +146,51 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
     cards.forEach((card) => {
       card.addEventListener('mouseover', hoverEffect);
       card.addEventListener('mouseout', positionCards);
+      card.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent the click from propagating to the document
+        if (selectedCard === card) {
+          console.log('Clicked on the selected card');
+        } else {
+          if (selectedCard) {
+            selectedCard.classList.remove('card-glow'); // Remove the glow effect from the previously selected card
+            selectedCard.classList.remove('selected'); // Remove selected class
+            backgroundElement.style.opacity = '0'; // Hide the background element
+            backgroundShadow.style.opacity = '0'; // Hide the shadow element
+          }
+          setSelectedCard(card);
+        }
+      });
+      console.log('Event listeners added to card:', card); 
     });
 
-    positionCards();
+    function handleDocumentClick(e) {
+      console.log('document click event listener triggered');
+      if (selectedCard && !e.target.classList.contains('card')) {
+        selectedCard.classList.remove('card-glow'); // Remove the glow effect from the selected card
+        selectedCard.classList.remove('selected'); // Remove selected class
+        setSelectedCard(null);
+        positionCards();
+        // Run code when the card is deselected
+        console.log('Card deselected');
+        backgroundElement.style.opacity = '0'; // Hide the background element
+        backgroundShadow.style.opacity = '0'; // Hide the shadow element
+      }
+    }
+
+    document.addEventListener('click', handleDocumentClick);
 
     return () => {
+      backgroundElement.style.transition = 'opacity 0.25s ease';
+      backgroundElement.style.opacity = '0';
+      backgroundShadow.style.transition = 'opacity 0.25s ease';
+      backgroundShadow.style.opacity = '0';
       cards.forEach((card) => {
         card.removeEventListener('mouseover', hoverEffect);
         card.removeEventListener('mouseout', positionCards);
-        card.removeEventListener('mousemove', rotateToMouse)
-        card.removeEventListener('mouseout', HandleMouseOutSelected)
+        card.removeEventListener('mousemove', rotateToMouse);
+        card.removeEventListener('mouseout', HandleMouseOutSelected);
       });
+      document.removeEventListener('click', handleDocumentClick); // Clean up document click listener
     };
   }, [selectedCard, setSelectedCard]); 
 };
