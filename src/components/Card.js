@@ -154,8 +154,6 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
           if (selectedCard) {
             selectedCard.classList.remove('card-glow'); // Remove the glow effect from the previously selected card
             selectedCard.classList.remove('selected'); // Remove selected class
-            backgroundElement.style.opacity = '0'; // Hide the background element
-            backgroundShadow.style.opacity = '0'; // Hide the shadow element
           }
           setSelectedCard(card);
         }
