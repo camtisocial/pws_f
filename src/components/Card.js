@@ -64,52 +64,49 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
       const maxDistance = Math.sqrt((bounds.width / 2) ** 2 + (bounds.height / 2) ** 2);
       const perspective = 4000 - (distanceFromCenter / maxDistance) * 500; // Adjust perspective based on distance
 
+      const skewX = (center.x / bounds.width) * 3; 
+      const skewY = (center.y / bounds.height) * 3;
+
       selectedCard.style.transitionDuration = '60ms'; // Speed up the 3D rotation animation
       selectedCard.style.transform = `
         translate(13vw, -25vw)
         scale3d(1.10, 1.10, 1.10)
         rotateX(${rotateX}deg)
         rotateY(${rotateY}deg)
+        skewX(${skewY}deg)
+        skewY(${skewX}deg)
         perspective(${perspective}px)
       `;
 
       backgroundElement.style.transition = 'transform 200ms ease'; // Speed up the 3D rotation animation
       backgroundElement.style.transform = `
         translate(-10vw, -12vw)
-        scale3d(1.10, 1.10, 1.10)
         rotateX(${rotateX * 0.3}deg)
         rotateY(${rotateY * 0.3}deg)
         perspective(${perspective}px)
       `;
 
       backgroundShadow.style.transition = 'transform 60ms ease'; // Speed up the 3D rotation animation
+      backgroundShadow.style.transition = 'opacity 0.5s ease';
+      backgroundShadow.style.height = '22vw';
+      backgroundShadow.style.opacity = '0.7';
       backgroundShadow.style.transform = `
-        translate(-10vw, -12vw)
+        translate(-10vw, -10vw)
         scale3d(1.10, 1.10, 1.10)
         rotateX(${rotateX * 0.8}deg)
         rotateY(${rotateY * 0.8}deg)
+        skewX(${skewY * 0.8}deg)
+        skewY(${skewX * 0.8}deg)
       `;
-
-      // Glow circle
-      const glow = document.querySelector('.card-glow');
-      if (glow) {
-        glow.style.backgroundImage = `
-          radial-gradient(
-            circle at
-            ${leftX}px
-            ${topY}px,
-            #ffffff55,
-            #0000000f
-          )
-        `;
-      }
     }
 
     function HandleMouseOutSelected() {
       backgroundElement.style.transitionDuration = 'transform 1900ms';
       backgroundElement.style.transform = `translate(-10vw, -12vw)`;
       backgroundShadow.style.transitionDuration = 'transform 1900ms';
-      backgroundShadow.style.transform = `translate(-10vw, -12vw)`;
+      backgroundShadow.style.transform = `translate(-10vw, -10vw)`;
+      backgroundShadow.style.transition = 'opacity 0.7s ease';
+      backgroundShadow.style.opacity = '0';
       selectedCard.style.transform = `translate(${translateX}vw, ${translateY}vw)`;
       selectedCard.style.transitionDuration = '300ms';
     }
@@ -125,8 +122,8 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
       setTimeout(() => {
         backgroundElement.style.transition = 'opacity 1s ease';
         backgroundElement.style.opacity = '1';
-        backgroundShadow.style.transition = 'opacity 1s ease';
-        backgroundShadow.style.opacity = '0.7';
+        // backgroundShadow.style.transition = 'opacity 1s ease';
+        // backgroundShadow.style.opacity = '0.7';
       }, 350);
       setTimeout(() => {
         bounds = card.getBoundingClientRect();

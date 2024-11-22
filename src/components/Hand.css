@@ -41,8 +41,10 @@
   transition: transform 0.25s ease, z-index 1.5s ease, scale3d 3s ease;
   cursor: pointer;
   perspective: 2000px; /* Enable perspective */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 6px 20px rgba(0, 0, 0, 0.19); /* Add shadowy border */
   z-index: 2;
   transform-style: preserve-3d;
+  border-radius: 15px;
 }
 
 .card.glow {
@@ -69,10 +71,10 @@
 
 .card-shadow{
   position: fixed;
-  bottom: -10vw;
+  bottom: -7vw;
   left: 102%;
-  width: 16vw;
-  height: 23vw;
+  width: 15vw;
+  height: 20vw;
   background: black;
   z-index: 4; /* Ensure it is behind the card content */
   pointer-events: none; /* Prevent it from blocking mouse events */
