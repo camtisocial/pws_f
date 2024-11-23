@@ -46,7 +46,7 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
       });
     }
 
-    function rotateToMouse(e) {
+   function rotateToMouse(e) {
       const mouseX = e.clientX;
       const mouseY = e.clientY;
       const leftX = mouseX - bounds.x;
@@ -55,7 +55,7 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
         x: leftX - bounds.width / 2,
         y: topY - bounds.height / 2
       };
-      const maxRotation = 25;
+      const maxRotation = 30;
       const rotateX = 1.3 * (center.y / (bounds.height / 2)) * maxRotation;
       const rotateY = -(center.x / (bounds.width / 2)) * maxRotation;
 
@@ -67,6 +67,11 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
       const skewX = (center.x / bounds.width) * 3; 
       const skewY = (center.y / bounds.height) * 3;
 
+      const minShadowHeight = 20; // in vw
+      const maxShadowHeight = 22.5; // in vw
+      const shadowHeight = minShadowHeight + ((topY / bounds.height) * (maxShadowHeight - minShadowHeight));
+
+      selectedCard.style.transformOrigin = 'center';
       selectedCard.style.transitionDuration = '60ms'; // Speed up the 3D rotation animation
       selectedCard.style.transform = `
         translate(13vw, -25vw)
@@ -88,7 +93,7 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
 
       backgroundShadow.style.transition = 'transform 60ms ease'; // Speed up the 3D rotation animation
       backgroundShadow.style.transition = 'opacity 0.5s ease';
-      backgroundShadow.style.height = '22vw';
+      backgroundShadow.style.height = `${shadowHeight}vw`;
       backgroundShadow.style.opacity = '0.7';
       backgroundShadow.style.transform = `
         translate(-10vw, -10vw)
@@ -99,7 +104,6 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
         skewY(${skewX * 0.8}deg)
       `;
     }
-
     function HandleMouseOutSelected() {
       backgroundElement.style.transitionDuration = 'transform 1900ms';
       backgroundElement.style.transform = `translate(-10vw, -12vw)`;
@@ -108,6 +112,7 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
       backgroundShadow.style.transition = 'opacity 0.7s ease';
       backgroundShadow.style.opacity = '0';
       selectedCard.style.transform = `translate(${translateX}vw, ${translateY}vw)`;
+      selectedCard.style.transformOrigin = 'bottom center';
       selectedCard.style.transitionDuration = '300ms';
     }
 
