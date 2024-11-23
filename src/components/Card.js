@@ -158,22 +158,6 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
       console.log('Event listeners added to card:', card); 
     });
 
-    function handleDocumentClick(e) {
-      console.log('document click event listener triggered');
-      if (selectedCard && !e.target.classList.contains('card')) {
-        selectedCard.classList.remove('card-glow'); // Remove the glow effect from the selected card
-        selectedCard.classList.remove('selected'); // Remove selected class
-        setSelectedCard(null);
-        positionCards();
-        // Run code when the card is deselected
-        console.log('Card deselected');
-        backgroundElement.style.opacity = '0'; // Hide the background element
-        backgroundShadow.style.opacity = '0'; // Hide the shadow element
-      }
-    }
-
-    document.addEventListener('click', handleDocumentClick);
-
     return () => {
       backgroundElement.style.transition = 'opacity 0.25s ease';
       backgroundElement.style.opacity = '0';
@@ -185,7 +169,6 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
         card.removeEventListener('mousemove', rotateToMouse);
         card.removeEventListener('mouseout', HandleMouseOutSelected);
       });
-      document.removeEventListener('click', handleDocumentClick); // Clean up document click listener
     };
   }, [selectedCard, setSelectedCard]); 
 };
