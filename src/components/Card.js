@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-const useCardEffects = (selectedCard, setSelectedCard) => {
+const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop) => {
   useEffect(() => {
     const cards = document.querySelectorAll('.card');
     let backgroundElement = document.querySelector('.card-background');
@@ -18,6 +18,7 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
          if (card !== selectedCard) {
            const angle = (-spreadAngle / 2) + (index * (spreadAngle / (totalCards - 1)));
            card.style.transform = `rotate(${angle}deg) translateX(${index * 10 - (totalCards * 5)}px)`;
+           card.style.perspective = '0px';
            card.style.zIndex = index - 1; 
            setTimeout(() => {
             card.style.transition = 'transform 0.25s ease';
@@ -63,8 +64,8 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
       const rotateY = (center.x / (bounds.width / 2)) * maxRotation;
 
       // Calculate the distance from the center of the card
-      const distanceFromCenter = Math.sqrt(center.x ** 2 + center.y ** 2);
-      const maxDistance = Math.sqrt((bounds.width / 2) ** 2 + (bounds.height / 2) ** 2);
+      // const distanceFromCenter = Math.sqrt(center.x ** 2 + center.y ** 2);
+      // const maxDistance = Math.sqrt((bounds.width / 2) ** 2 + (bounds.height / 2) ** 2);
       const perspective = 1000; // Adjust perspective value for a more pronounced 3D effect
 
       // Interpolate the shadow height based on the mouse position
@@ -119,7 +120,17 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
       // }
     }
 
-    function HandleMouseOutSelected() {
+    function handleOverlayClick() {
+        console.log('clicked overlay');
+        overlayBottom.removeEventListener('click', handleOverlayClick);
+        overlayTop.removeEventListener('click', handleOverlayClick);
+      cards.forEach((card, index) => {
+        console.log('card', card);
+        card.removeEventListener('mousemove', rotateToMouse);
+      });
+    }
+
+    function handleMouseOutSelected() {
       backgroundElement.style.transitionDuration = 'transform 1900ms';
       backgroundElement.style.transform = `translate(-10vw, -12vw)`;
       backgroundShadow.style.transitionDuration = 'transform 1900ms';
@@ -129,21 +140,13 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
       selectedCard.style.transform = `translate(${translateX}vw, ${translateY}vw)`;
       selectedCard.style.transformOrigin = 'bottom center';
       selectedCard.style.transitionDuration = '300ms';
-      const glowEffect = selectedCard.parentElement.querySelector('.glow');
-      if (glowEffect) {
-        glowEffect.style.opacity = '0';
-      }
+      // const glowEffect = selectedCard.parentElement.querySelector('.glow');
+      // if (glowEffect) {
+      //   glowEffect.style.opacity = '0';
+      // }
     }
 
     function applyCardEffects(card) {
-
-      const centerContainer = document.querySelector('.center-container');
-      centerContainer.appendChild(card);
-
-      console.log(`translateX: ${translateX}, translateY: ${translateY}`);
-      card.style.transform = `translate(${translateX}vw, ${translateY}vw)`;
-      card.style.transition = 'transform 0.8s ease';
-      card.style.zIndex = 6;
       backgroundElement.style.transform = `translate(-10vw, -12vw)`;
       backgroundShadow.style.transform = `translate(-10vw, -12vw)`;
 
@@ -162,8 +165,13 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
       setTimeout(() => {
         bounds = card.getBoundingClientRect();
         card.addEventListener('mousemove', rotateToMouse);
-        card.addEventListener('mouseout', HandleMouseOutSelected);
+        card.addEventListener('mouseout', handleMouseOutSelected);
       }, 800);
+    }
+
+    if (overlayBottom && overlayTop) {
+      overlayBottom.addEventListener('click', handleOverlayClick);
+      overlayTop.addEventListener('click', handleOverlayClick);
     }
 
     if (selectedCard) {
@@ -175,20 +183,6 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
     cards.forEach((card) => {
       card.addEventListener('mouseover', hoverEffect);
       card.addEventListener('mouseout', positionCards);
-      card.addEventListener('click', (e) => {
-        e.stopPropagation(); // Prevent the click from propagating to the document
-        if (selectedCard === card) {
-          console.log('Clicked on the selected card');
-        } else {
-          if (selectedCard) {
-            selectedCard.classList.remove('selected'); // Remove selected class
-            backgroundElement.style.opacity = '0'; // Hide the background element
-            backgroundShadow.style.opacity = '0'; // Hide the shadow element
-          }
-          setSelectedCard(card);
-        }
-      });
-      console.log('Event listeners added to card:', card); 
     });
 
     return () => {
@@ -200,10 +194,10 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
         card.removeEventListener('mouseover', hoverEffect);
         card.removeEventListener('mouseout', positionCards);
         card.removeEventListener('mousemove', rotateToMouse);
-        card.removeEventListener('mouseout', HandleMouseOutSelected);
+        card.removeEventListener('mouseout', handleMouseOutSelected);
       });
     };
-  }, [selectedCard, setSelectedCard]); 
+  }, [selectedCard, setSelectedCard, overlayBottom, overlayTop]); 
 };
 
 export default useCardEffects;

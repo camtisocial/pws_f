@@ -6,8 +6,10 @@ function Hand() {
   const overlayBottomRef = useRef(null);
   const overlayTopRef = useRef(null);
   const [selectedCard, setSelectedCard] = useState(null);
+  const overlayBottom = useRef(null);
+  const overlayTop = useRef(null);
 
-  useCardEffects(selectedCard, setSelectedCard);
+  useCardEffects(selectedCard, setSelectedCard, overlayBottomRef.current, overlayTopRef.current);
 
   useEffect(() => {
     const cards = document.querySelectorAll('.card');
@@ -25,7 +27,8 @@ function Hand() {
     }
 
     function resetFocus() {
-      console.log('Resetting focus');
+      // const cardContainer= selectedCard.parentElement;
+      // console.log('Resetting focus');
 
       handContainer.classList.add('raised');
 
@@ -34,12 +37,14 @@ function Hand() {
       overlayTop.style.opacity = '0';
       overlayTop.style.pointerEvents = 'none';
 
-      selectedCard.style.transition = '0.80s ease';
 
       cards.forEach((card) => {
-        card.style.transform = '';
+        const cardContainer= card.parentElement;
+        cardContainer.style.transform = `
+          translate(0, 0)`
         card.style.zIndex = '';
-        card.style.pointerEvents = 'auto';
+        cardContainer.style.zIndex = '';
+        cardContainer.style.transition = '1s ease';
       });
 
       hoverArea.style.pointerEvents = 'auto';
@@ -54,9 +59,11 @@ function Hand() {
       card.addEventListener('mouseout', handleMouseOut);
       card.addEventListener('click', (e) => {
         if (selectedCard === card) {
-          console.log('Clicked on the selected card');
+          // console.log('Clicked on the selected card:', selectedCard);
+
         } else {
           setSelectedCard(card);
+          // console.log('ELSE Selected card:', selectedCard);
         }
       });
     });
@@ -68,6 +75,15 @@ function Hand() {
       console.log('Selected card:', selectedCard);
 
       handContainer.classList.remove('raised');
+
+      const cardContainer= selectedCard.parentElement;
+      cardContainer.style.transition= 'transform 0.80s ease, z-index 1s ease';
+      cardContainer.style.transform = `translate(15.5vw, -25vw)`;
+      cardContainer.style.zIndex = '60';
+      selectedCard.style.transition = 'transform 0.80s ease, z-index 0.80s ease';
+      selectedCard.style.transform = '';
+      selectedCard.style.zIndex = '60';
+
 
       overlayBottom.style.opacity = '1.0';
       overlayBottom.style.pointerEvents = 'auto';
@@ -103,7 +119,6 @@ function Hand() {
   return (
     <div>
       <div className="hover-area"></div>
-      <div className="center-container"></div>
       <div className="hand-container">
         <img src="/images/pixelhand.png" alt="Hand" className="hand" />
         <div className="cards">

@@ -39,14 +39,15 @@
 .card {
   position: absolute;
   perspective-origin: center;
-  margin-left: -7.7vw;
+  bottom: -10vw;
   width: 15vw;
   height: auto;
   transform-origin: bottom center;
-  transition: transform 0.25s ease, z-index 1.5s ease, scale3d 3s ease;
+  transition: transform 0.25s ease, z-index 0.0s ease, scale3d 3s ease;
   cursor: pointer;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 6px 20px rgba(0, 0, 0, 0.19); /* Add shadowy border */
   z-index: 2;
+  pointer-events: auto;
   border-radius: 15px;
 }
 
@@ -54,8 +55,9 @@
   position: absolute;
   perspective-origin: center;
   bottom: -10vw;
-  border: 2px solid black;
   width: 20vw;
+  pointer-events: none;
+  height: 20vw;
   height: 20vw;
   transition: bottom 0.5s ease, transform 0.5s ease;
 
@@ -96,14 +98,6 @@
   filter: blur(10px); /* Add blur to create shadow effect */
 }
 
-.center-container {
-  margin-left: 48vw;
-  margin-top: 10.5vw;
-  pointer-events: none;
-  width: 15vw;
-  height: 20vw;
-  border: 3px solid red;
-}
 
 .hand {
   position: relative;
