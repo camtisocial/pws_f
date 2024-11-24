@@ -78,7 +78,7 @@ function Hand() {
 
       const cardContainer= selectedCard.parentElement;
       cardContainer.style.transition= 'transform 0.80s ease, z-index 1s ease';
-      cardContainer.style.transform = `translate(15.5vw, -25vw)`;
+      cardContainer.style.transform = `translate(13.5vw, -24vw)`;
       cardContainer.style.zIndex = '60';
       selectedCard.style.transition = 'transform 0.80s ease, z-index 0.80s ease';
       selectedCard.style.transform = '';

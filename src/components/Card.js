@@ -7,8 +7,6 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
     let backgroundShadow = document.querySelector('.card-shadow');
     const spreadAngle = 60; 
     const totalCards = cards.length;
-    // let translateX = 13;
-    // let translateY = -15;
     let translateX = 0;
     let translateY = 0;
     let bounds;
@@ -59,34 +57,20 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
         y: topY - bounds.height / 2
       };
       selectedCard.style.transformOrigin = 'center center';
-      const maxRotation = 35;
+      const maxRotation = 20;
       const rotateX = -(center.y / (bounds.height / 2)) * maxRotation;
       const rotateY = (center.x / (bounds.width / 2)) * maxRotation;
-
-      // Calculate the distance from the center of the card
-      // const distanceFromCenter = Math.sqrt(center.x ** 2 + center.y ** 2);
-      // const maxDistance = Math.sqrt((bounds.width / 2) ** 2 + (bounds.height / 2) ** 2);
       const perspective = 1000; // Adjust perspective value for a more pronounced 3D effect
-
-      // Interpolate the shadow height based on the mouse position
-      const minShadowHeight = 20; // in vw
-      const maxShadowHeight = 22.5; // in vw
-      const shadowHeight = minShadowHeight + ((topY / bounds.height) * (maxShadowHeight - minShadowHeight));
+      selectedCard.parentElement.style.setProperty(`--mouse-x`, `${leftX}px`);
+      selectedCard.parentElement.style.setProperty(`--mouse-y`, `${topY}px`);
 
       selectedCard.style.transitionDuration = '60ms'; // Speed up the 3D rotation animation
       selectedCard.style.transform = `
+        scale3d(1.1, 1.1, 1.1)
         perspective(${perspective}px)
         rotateX(${rotateX}deg)
         rotateY(${rotateY}deg)
       `;
-
-      // selectedCard.style.transitionDuration = '60ms'; // Speed up the 3D rotation animation
-      // selectedCard.style.transform = `
-      //   perspective(${perspective}px)
-      //   rotateX(${rotateX}deg)
-      //   rotateY(${rotateY}deg)
-      //   translate(${translateX}vw, ${translateY}vw)
-      // `;
       backgroundElement.style.transition = 'transform 200ms ease'; // Speed up the 3D rotation animation
       backgroundElement.style.transform = `
         perspective(${perspective}px)
@@ -94,9 +78,7 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
         rotateX(${rotateX * 0.3}deg)
         rotateY(${rotateY * 0.3}deg)
       `;
-
       backgroundShadow.style.transition = 'transform 60ms ease, opacity 0.5s ease, height 500ms ease'; // Add height transition
-      backgroundShadow.style.height = `${shadowHeight}vw`;
       backgroundShadow.style.opacity = '0.7';
       backgroundShadow.style.transform = `
         perspective(${perspective}px)
@@ -104,20 +86,6 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
         rotateX(${rotateX * 0.8}deg)
         rotateY(${rotateY * 0.8}deg)
       `;
-
-      // Update the glow effect position
-      // const glowEffect = selectedCard.parentElement.querySelector('.glow');
-      // if (glowEffect) {
-      //   glowEffect.style.backgroundImage = `
-      //     radial-gradient(
-      //       circle at
-      //       ${center.x * 2 + bounds.width / 2}px
-      //       ${center.y * 2 + bounds.height / 2}px,
-      //       #ffffff55,
-      //       #0000000f
-      //     )
-      //   `;
-      // }
     }
 
     function handleOverlayClick() {
@@ -127,6 +95,7 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
       cards.forEach((card, index) => {
         console.log('card', card);
         card.removeEventListener('mousemove', rotateToMouse);
+        card.style.transformOrigin = 'bottom center';
       });
     }
 
@@ -135,15 +104,12 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
       backgroundElement.style.transform = `translate(-10vw, -12vw)`;
       backgroundShadow.style.transitionDuration = 'transform 1900ms';
       backgroundShadow.style.transform = `translate(-10vw, -10vw)`;
-      backgroundShadow.style.transition = 'opacity 0.7s ease';
       backgroundShadow.style.opacity = '0';
+      selectedCard.style.transitionDuration = '500ms';
       selectedCard.style.transform = `translate(${translateX}vw, ${translateY}vw)`;
-      selectedCard.style.transformOrigin = 'bottom center';
-      selectedCard.style.transitionDuration = '300ms';
-      // const glowEffect = selectedCard.parentElement.querySelector('.glow');
-      // if (glowEffect) {
-      //   glowEffect.style.opacity = '0';
-      // }
+      // selectedCard.parentElement.style.setProperty(`--hover-opacity`, 0);
+      selectedCard.parentElement.style.background='';
+
     }
 
     function applyCardEffects(card) {
@@ -158,7 +124,7 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
 
       setTimeout(() => {
         backgroundElement.style.transition = 'opacity 1s ease';
-        backgroundElement.style.opacity = '1';
+        backgroundElement.style.opacity = '0';
         backgroundShadow.style.transition = 'opacity 1s ease';
         backgroundShadow.style.opacity = '0.7';
       }, 350);

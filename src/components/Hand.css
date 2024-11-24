@@ -39,7 +39,6 @@
 .card {
   position: absolute;
   perspective-origin: center;
-  bottom: -10vw;
   width: 15vw;
   height: auto;
   transform-origin: bottom center;
@@ -54,13 +53,33 @@
 .card-container {
   position: absolute;
   perspective-origin: center;
-  bottom: -10vw;
-  width: 20vw;
+  bottom: -18vw;
+  width: 15vw;
   pointer-events: none;
   height: 20vw;
-  height: 20vw;
   transition: bottom 0.5s ease, transform 0.5s ease;
+}
 
+.card-container::before{
+  content: '';
+  position: absolute;
+  width: 25vw;
+  height: 25vw;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  /* background-image: radial-gradient(circle, #ffffff22, #0000000f); */
+  background-image: radial-gradient(circle, #ffffff, #0000000f);
+  z-index: 40;
+  filter: blur(50px);
+  transition: opacity 0s ease;
+}
+
+.card-container:hover::before{
+  opacity: .1;
+  left: var(--mouse-x);
+  top: var(--mouse-y);
 }
 
 .glow {
@@ -87,7 +106,7 @@
   position: fixed;
   bottom: -7vw;
   left: 102%;
-  width: 15vw;
+  width: 16vw;
   height: 20vw;
   background: black;
   z-index: 4; /* Ensure it is behind the card content */
