@@ -1,5 +1,6 @@
 .hand-container {
   position: fixed;
+  perspective-origin: center;
   margin-left: 3vw;
   width: 50vw;
   bottom: -70%;
@@ -8,6 +9,7 @@
 
 .hover-area {
   width: 30vw;
+  perspective-origin: center;
   height: 18vw;
   position: absolute;
   bottom: -10%;
@@ -21,6 +23,7 @@
 }
 
 .cards {
+  perspective-origin: center;
   position: absolute;
   bottom: 75%;
   margin-left: 32vw;
@@ -35,23 +38,32 @@
 
 .card {
   position: absolute;
+  perspective-origin: center;
+  margin-left: -7.7vw;
   width: 15vw;
   height: auto;
   transform-origin: bottom center;
   transition: transform 0.25s ease, z-index 1.5s ease, scale3d 3s ease;
   cursor: pointer;
-  perspective: 2000px; /* Enable perspective */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 6px 20px rgba(0, 0, 0, 0.19); /* Add shadowy border */
   z-index: 2;
-  transform-style: preserve-3d;
   border-radius: 15px;
 }
 
-.card.glow {
-  z-index: 7;
-  pointer-events: none;
-  background-image: radial-gradient(circle at center, #ffffff22, #0000000f);
-  opacity: 1;
+.card-container {
+  position: absolute;
+  perspective-origin: center;
+  bottom: -10vw;
+  border: 2px solid black;
+  width: 20vw;
+  height: 20vw;
+  transition: bottom 0.5s ease, transform 0.5s ease;
+
+}
+
+.glow {
+  position: absolute;
+  background-image: radial-gradient(circle, #ff9a9e, #fad0c4);
 }
 
 .card-background {
@@ -82,6 +94,15 @@
   border-radius: 25px;
   transition: opacity 1.25s ease;
   filter: blur(10px); /* Add blur to create shadow effect */
+}
+
+.center-container {
+  margin-left: 48vw;
+  margin-top: 10.5vw;
+  pointer-events: none;
+  width: 15vw;
+  height: 20vw;
+  border: 3px solid red;
 }
 
 .hand {

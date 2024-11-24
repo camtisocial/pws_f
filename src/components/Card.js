@@ -7,8 +7,10 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
     let backgroundShadow = document.querySelector('.card-shadow');
     const spreadAngle = 60; 
     const totalCards = cards.length;
-    let translateX = 13;
-    let translateY = -25;
+    // let translateX = 13;
+    // let translateY = -15;
+    let translateX = 0;
+    let translateY = 0;
     let bounds;
 
     function positionCards() {
@@ -46,7 +48,7 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
       });
     }
 
-   function rotateToMouse(e) {
+    function rotateToMouse(e) {
       const mouseX = e.clientX;
       const mouseY = e.clientY;
       const leftX = mouseX - bounds.x;
@@ -55,55 +57,68 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
         x: leftX - bounds.width / 2,
         y: topY - bounds.height / 2
       };
-      const maxRotation = 30;
-      const rotateX = 1.3 * (center.y / (bounds.height / 2)) * maxRotation;
-      const rotateY = -(center.x / (bounds.width / 2)) * maxRotation;
+      selectedCard.style.transformOrigin = 'center center';
+      const maxRotation = 35;
+      const rotateX = -(center.y / (bounds.height / 2)) * maxRotation;
+      const rotateY = (center.x / (bounds.width / 2)) * maxRotation;
 
       // Calculate the distance from the center of the card
       const distanceFromCenter = Math.sqrt(center.x ** 2 + center.y ** 2);
       const maxDistance = Math.sqrt((bounds.width / 2) ** 2 + (bounds.height / 2) ** 2);
-      const perspective = 4000 - (distanceFromCenter / maxDistance) * 500; // Adjust perspective based on distance
+      const perspective = 1000; // Adjust perspective value for a more pronounced 3D effect
 
-      const skewX = (center.x / bounds.width) * 3; 
-      const skewY = (center.y / bounds.height) * 3;
-
+      // Interpolate the shadow height based on the mouse position
       const minShadowHeight = 20; // in vw
       const maxShadowHeight = 22.5; // in vw
       const shadowHeight = minShadowHeight + ((topY / bounds.height) * (maxShadowHeight - minShadowHeight));
 
-      selectedCard.style.transformOrigin = 'center';
       selectedCard.style.transitionDuration = '60ms'; // Speed up the 3D rotation animation
       selectedCard.style.transform = `
-        translate(13vw, -25vw)
-        scale3d(1.10, 1.10, 1.10)
+        perspective(${perspective}px)
         rotateX(${rotateX}deg)
         rotateY(${rotateY}deg)
-        skewX(${skewY}deg)
-        skewY(${skewX}deg)
-        perspective(${perspective}px)
       `;
 
+      // selectedCard.style.transitionDuration = '60ms'; // Speed up the 3D rotation animation
+      // selectedCard.style.transform = `
+      //   perspective(${perspective}px)
+      //   rotateX(${rotateX}deg)
+      //   rotateY(${rotateY}deg)
+      //   translate(${translateX}vw, ${translateY}vw)
+      // `;
       backgroundElement.style.transition = 'transform 200ms ease'; // Speed up the 3D rotation animation
       backgroundElement.style.transform = `
+        perspective(${perspective}px)
         translate(-10vw, -12vw)
         rotateX(${rotateX * 0.3}deg)
         rotateY(${rotateY * 0.3}deg)
-        perspective(${perspective}px)
       `;
 
-      backgroundShadow.style.transition = 'transform 60ms ease'; // Speed up the 3D rotation animation
-      backgroundShadow.style.transition = 'opacity 0.5s ease';
+      backgroundShadow.style.transition = 'transform 60ms ease, opacity 0.5s ease, height 500ms ease'; // Add height transition
       backgroundShadow.style.height = `${shadowHeight}vw`;
       backgroundShadow.style.opacity = '0.7';
       backgroundShadow.style.transform = `
+        perspective(${perspective}px)
         translate(-10vw, -10vw)
-        scale3d(1.10, 1.10, 1.10)
         rotateX(${rotateX * 0.8}deg)
         rotateY(${rotateY * 0.8}deg)
-        skewX(${skewY * 0.8}deg)
-        skewY(${skewX * 0.8}deg)
       `;
+
+      // Update the glow effect position
+      // const glowEffect = selectedCard.parentElement.querySelector('.glow');
+      // if (glowEffect) {
+      //   glowEffect.style.backgroundImage = `
+      //     radial-gradient(
+      //       circle at
+      //       ${center.x * 2 + bounds.width / 2}px
+      //       ${center.y * 2 + bounds.height / 2}px,
+      //       #ffffff55,
+      //       #0000000f
+      //     )
+      //   `;
+      // }
     }
+
     function HandleMouseOutSelected() {
       backgroundElement.style.transitionDuration = 'transform 1900ms';
       backgroundElement.style.transform = `translate(-10vw, -12vw)`;
@@ -114,9 +129,17 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
       selectedCard.style.transform = `translate(${translateX}vw, ${translateY}vw)`;
       selectedCard.style.transformOrigin = 'bottom center';
       selectedCard.style.transitionDuration = '300ms';
+      const glowEffect = selectedCard.parentElement.querySelector('.glow');
+      if (glowEffect) {
+        glowEffect.style.opacity = '0';
+      }
     }
 
     function applyCardEffects(card) {
+
+      const centerContainer = document.querySelector('.center-container');
+      centerContainer.appendChild(card);
+
       console.log(`translateX: ${translateX}, translateY: ${translateY}`);
       card.style.transform = `translate(${translateX}vw, ${translateY}vw)`;
       card.style.transition = 'transform 0.8s ease';
@@ -124,18 +147,22 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
       backgroundElement.style.transform = `translate(-10vw, -12vw)`;
       backgroundShadow.style.transform = `translate(-10vw, -12vw)`;
 
+      // Add the glow effect
+      const glowEffect = card.parentElement.querySelector('.glow');
+      if (glowEffect) {
+        glowEffect.style.opacity = '1';
+      }
+
       setTimeout(() => {
         backgroundElement.style.transition = 'opacity 1s ease';
         backgroundElement.style.opacity = '1';
-        // backgroundShadow.style.transition = 'opacity 1s ease';
-        // backgroundShadow.style.opacity = '0.7';
+        backgroundShadow.style.transition = 'opacity 1s ease';
+        backgroundShadow.style.opacity = '0.7';
       }, 350);
       setTimeout(() => {
         bounds = card.getBoundingClientRect();
         card.addEventListener('mousemove', rotateToMouse);
         card.addEventListener('mouseout', HandleMouseOutSelected);
-        card.style.perspective = '2000px';
-        card.classList.add('.card.glow');
       }, 800);
     }
 
@@ -154,8 +181,9 @@ const useCardEffects = (selectedCard, setSelectedCard) => {
           console.log('Clicked on the selected card');
         } else {
           if (selectedCard) {
-            selectedCard.classList.remove('card-glow'); // Remove the glow effect from the previously selected card
             selectedCard.classList.remove('selected'); // Remove selected class
+            backgroundElement.style.opacity = '0'; // Hide the background element
+            backgroundShadow.style.opacity = '0'; // Hide the shadow element
           }
           setSelectedCard(card);
         }
