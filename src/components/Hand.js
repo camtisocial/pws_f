@@ -7,7 +7,7 @@ function Hand() {
   const overlayTopRef = useRef(null);
   const [selectedCard, setSelectedCard] = useState(null);
 
-  useCardEffects(selectedCard, setSelectedCard);
+  useCardEffects(selectedCard, setSelectedCard, overlayBottomRef.current, overlayTopRef.current);
 
   useEffect(() => {
     const cards = document.querySelectorAll('.card');
@@ -25,7 +25,8 @@ function Hand() {
     }
 
     function resetFocus() {
-      console.log('Resetting focus');
+      // const cardContainer= selectedCard.parentElement;
+      // console.log('Resetting focus');
 
       handContainer.classList.add('raised');
 
@@ -34,12 +35,14 @@ function Hand() {
       overlayTop.style.opacity = '0';
       overlayTop.style.pointerEvents = 'none';
 
-      selectedCard.style.transition = '0.80s ease';
 
       cards.forEach((card) => {
-        card.style.transform = '';
+        const cardContainer= card.parentElement;
+        cardContainer.style.transform = `
+          translate(0, 0)`
         card.style.zIndex = '';
-        card.style.pointerEvents = 'auto';
+        cardContainer.style.zIndex = '';
+        cardContainer.style.transition = '1s ease';
       });
 
       hoverArea.style.pointerEvents = 'auto';
@@ -54,7 +57,7 @@ function Hand() {
       card.addEventListener('mouseout', handleMouseOut);
       card.addEventListener('click', (e) => {
         if (selectedCard === card) {
-          console.log('Clicked on the selected card');
+          console.log('Clicked on the selected card:opacity', selectedCard);
         } else {
           setSelectedCard(card);
         }
@@ -68,6 +71,15 @@ function Hand() {
       console.log('Selected card:', selectedCard);
 
       handContainer.classList.remove('raised');
+
+      const cardContainer= selectedCard.parentElement;
+      cardContainer.style.transition= 'transform 0.80s ease, z-index 1s ease';
+      cardContainer.style.transform = `translate(13.5vw, -24vw)`;
+      cardContainer.style.zIndex = '60';
+      selectedCard.style.transition = 'transform 0.80s ease, z-index 0.80s ease';
+      selectedCard.style.transform = '';
+      selectedCard.style.zIndex = '60';
+
 
       overlayBottom.style.opacity = '1.0';
       overlayBottom.style.pointerEvents = 'auto';
@@ -106,15 +118,27 @@ function Hand() {
       <div className="hand-container">
         <img src="/images/pixelhand.png" alt="Hand" className="hand" />
         <div className="cards">
-          <img src="/images/martiniCard.png" alt="Card 4" className="card" key="card-4" />
-          <img src="/images/jokerCard.png" alt="Card 1" className="card" key="card-1" />
-          <img src="/images/floppyCard.png" alt="Card 2" className="card" key="card-2" />
-          <img src="/images/quillCard.png" alt="Card 3" className="card" key="card-3" />
+          <div className="card-container">
+            <img src="/images/martiniCard.png" alt="Card 4" className="card" key="card-4" />
+            <div className="glow"></div>
+          </div>
+          <div className="card-container">
+            <img src="/images/jokerCard.png" alt="Card 1" className="card" key="card-1" />
+            <div className="glow"></div>
+          </div>
+          <div className="card-container">
+            <img src="/images/floppyCard.png" alt="Card 2" className="card" key="card-2" />
+            <div className="glow"></div>
+          </div>
+          <div className="card-container">
+            <img src="/images/quillCard.png" alt="Card 3" className="card" key="card-3" />
+            <div className="glow"></div>
+          </div>
           <div className="overlay-bottom" ref={overlayBottomRef}></div>
           <img src="/images/pixelthumb.png" alt="Thumb" className="thumb" />
           <div className="overlay-top" ref={overlayTopRef}></div>
-          <div className="card-background"></div> {}
-          <div className="card-shadow"></div> {}
+          <div className="card-background"></div>
+          <div className="card-shadow"></div>
         </div>
       </div>
     </div>

@@ -1,5 +1,6 @@
 .hand-container {
   position: fixed;
+  perspective-origin: center;
   margin-left: 3vw;
   width: 50vw;
   bottom: -70%;
@@ -8,6 +9,7 @@
 
 .hover-area {
   width: 30vw;
+  perspective-origin: center;
   height: 18vw;
   position: absolute;
   bottom: -10%;
@@ -21,6 +23,7 @@
 }
 
 .cards {
+  perspective-origin: center;
   position: absolute;
   bottom: 75%;
   margin-left: 32vw;
@@ -35,23 +38,54 @@
 
 .card {
   position: absolute;
+  perspective-origin: center;
   width: 15vw;
   height: auto;
   transform-origin: bottom center;
-  transition: transform 0.25s ease, z-index 1.5s ease, scale3d 3s ease;
+  transition: transform 0.25s ease, z-index 0.0s ease, scale3d 3s ease;
   cursor: pointer;
-  perspective: 2000px; /* Enable perspective */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 6px 20px rgba(0, 0, 0, 0.19); /* Add shadowy border */
   z-index: 2;
-  transform-style: preserve-3d;
+  pointer-events: auto;
   border-radius: 15px;
 }
 
-.card.glow {
-  z-index: 7;
+.card-container {
+  position: absolute;
+  perspective-origin: center;
+  bottom: -18vw;
+  width: 15vw;
   pointer-events: none;
-  background-image: radial-gradient(circle at center, #ffffff22, #0000000f);
+  height: 20vw;
+  transition: bottom 0.5s ease, transform 0.5s ease;
   opacity: 1;
+  --hover-opacity: 0.0;
+}
+
+.card-container::before{
+  content: '';
+  position: absolute;
+  width: 25vw;
+  height: 25vw;
+  left: var(--mouse-x);
+  top: var(--mouse-y);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  background-image: radial-gradient(circle, #ffffff, #0000000f);
+  z-index: 1;
+  filter: blur(50px);
+  transition: opacity 0.3s ease;
+}
+
+.card-container:hover::before{
+  opacity: var(--hover-opacity);
+}
+
+.glow {
+  position: absolute;
+  background-image: radial-gradient(circle, #ff9a9e, #fad0c4);
 }
 
 .card-background {
@@ -73,7 +107,7 @@
   position: fixed;
   bottom: -7vw;
   left: 102%;
-  width: 15vw;
+  width: 16vw;
   height: 20vw;
   background: black;
   z-index: 4; /* Ensure it is behind the card content */
@@ -83,6 +117,7 @@
   transition: opacity 1.25s ease;
   filter: blur(10px); /* Add blur to create shadow effect */
 }
+
 
 .hand {
   position: relative;
