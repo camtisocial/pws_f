@@ -73,7 +73,6 @@
   opacity: 0;
   border-radius: 50%;
   pointer-events: none;
-  /* background-image: radial-gradient(circle, #ffffff22, #0000000f); */
   background-image: radial-gradient(circle, #ffffff, #0000000f);
   z-index: 1;
   filter: blur(50px);

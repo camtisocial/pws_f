@@ -65,7 +65,7 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
       const perspective = 1000; // Adjust perspective value for a more pronounced 3D effect
       selectedCard.parentElement.style.setProperty(`--mouse-x`, `${leftX}px`);
       selectedCard.parentElement.style.setProperty(`--mouse-y`, `${topY}px`);
-      selectedCard.parentElement.style.setProperty(`--hover-opacity`, `0.1`);
+      selectedCard.parentElement.style.setProperty(`--hover-opacity`, `0.15`);
 
       fuckItX = leftX;
       fuckItY = topY;
@@ -99,10 +99,8 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
         overlayBottom.removeEventListener('click', handleOverlayClick);
         overlayTop.removeEventListener('click', handleOverlayClick);
       cards.forEach((card, index) => {
-        console.log('card', card);
         card.removeEventListener('mousemove', rotateToMouse);
         card.style.transformOrigin = 'bottom center';
-        // card.parentElement.style.setProperty(`--hover-opacity`, `0`);
       });
     }
 
@@ -119,7 +117,7 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
 
       selectedCard.parentElement.style.setProperty(`--mouse-y`, `${fuckItY}px`);
       selectedCard.parentElement.style.setProperty(`--mouse-x`, `${fuckItX}px`);
-      selectedCard.parentElement.style.setProperty(`--hover-opacity`, `1`);
+      selectedCard.parentElement.style.setProperty(`--hover-opacity`, `0`);
     }
 
     function applyCardEffects(card) {

@@ -58,10 +58,8 @@ function Hand() {
       card.addEventListener('click', (e) => {
         if (selectedCard === card) {
           console.log('Clicked on the selected card:opacity', selectedCard);
-
         } else {
           setSelectedCard(card);
-          console.log('ELSE Selected card:', selectedCard);
         }
       });
     });
