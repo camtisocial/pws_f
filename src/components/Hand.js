@@ -6,8 +6,6 @@ function Hand() {
   const overlayBottomRef = useRef(null);
   const overlayTopRef = useRef(null);
   const [selectedCard, setSelectedCard] = useState(null);
-  const overlayBottom = useRef(null);
-  const overlayTop = useRef(null);
 
   useCardEffects(selectedCard, setSelectedCard, overlayBottomRef.current, overlayTopRef.current);
 
@@ -59,11 +57,11 @@ function Hand() {
       card.addEventListener('mouseout', handleMouseOut);
       card.addEventListener('click', (e) => {
         if (selectedCard === card) {
-          // console.log('Clicked on the selected card:', selectedCard);
+          console.log('Clicked on the selected card:opacity', selectedCard);
 
         } else {
           setSelectedCard(card);
-          // console.log('ELSE Selected card:', selectedCard);
+          console.log('ELSE Selected card:', selectedCard);
         }
       });
     });

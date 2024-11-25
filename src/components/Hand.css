@@ -58,6 +58,8 @@
   pointer-events: none;
   height: 20vw;
   transition: bottom 0.5s ease, transform 0.5s ease;
+  opacity: 1;
+  --hover-opacity: 0.0;
 }
 
 .card-container::before{
@@ -65,21 +67,21 @@
   position: absolute;
   width: 25vw;
   height: 25vw;
+  left: var(--mouse-x);
+  top: var(--mouse-y);
   transform: translate(-50%, -50%);
   opacity: 0;
   border-radius: 50%;
   pointer-events: none;
   /* background-image: radial-gradient(circle, #ffffff22, #0000000f); */
   background-image: radial-gradient(circle, #ffffff, #0000000f);
-  z-index: 40;
+  z-index: 1;
   filter: blur(50px);
-  transition: opacity 0s ease;
+  transition: opacity 0.3s ease;
 }
 
 .card-container:hover::before{
-  opacity: .1;
-  left: var(--mouse-x);
-  top: var(--mouse-y);
+  opacity: var(--hover-opacity);
 }
 
 .glow {

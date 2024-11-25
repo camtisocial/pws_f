@@ -10,6 +10,8 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
     let translateX = 0;
     let translateY = 0;
     let bounds;
+    let fuckItX;
+    let fuckItY;
 
     function positionCards() {
       cards.forEach((card, index) => {
@@ -63,6 +65,10 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
       const perspective = 1000; // Adjust perspective value for a more pronounced 3D effect
       selectedCard.parentElement.style.setProperty(`--mouse-x`, `${leftX}px`);
       selectedCard.parentElement.style.setProperty(`--mouse-y`, `${topY}px`);
+      selectedCard.parentElement.style.setProperty(`--hover-opacity`, `0.1`);
+
+      fuckItX = leftX;
+      fuckItY = topY;
 
       selectedCard.style.transitionDuration = '60ms'; // Speed up the 3D rotation animation
       selectedCard.style.transform = `
@@ -96,10 +102,13 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
         console.log('card', card);
         card.removeEventListener('mousemove', rotateToMouse);
         card.style.transformOrigin = 'bottom center';
+        // card.parentElement.style.setProperty(`--hover-opacity`, `0`);
       });
     }
 
     function handleMouseOutSelected() {
+      console.log(`fuckitX: ${fuckItX}px`);
+      console.log(`fuckitY: ${fuckItY}px`);
       backgroundElement.style.transitionDuration = 'transform 1900ms';
       backgroundElement.style.transform = `translate(-10vw, -12vw)`;
       backgroundShadow.style.transitionDuration = 'transform 1900ms';
@@ -107,20 +116,15 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
       backgroundShadow.style.opacity = '0';
       selectedCard.style.transitionDuration = '500ms';
       selectedCard.style.transform = `translate(${translateX}vw, ${translateY}vw)`;
-      // selectedCard.parentElement.style.setProperty(`--hover-opacity`, 0);
-      selectedCard.parentElement.style.background='';
 
+      selectedCard.parentElement.style.setProperty(`--mouse-y`, `${fuckItY}px`);
+      selectedCard.parentElement.style.setProperty(`--mouse-x`, `${fuckItX}px`);
+      selectedCard.parentElement.style.setProperty(`--hover-opacity`, `1`);
     }
 
     function applyCardEffects(card) {
       backgroundElement.style.transform = `translate(-10vw, -12vw)`;
       backgroundShadow.style.transform = `translate(-10vw, -12vw)`;
-
-      // Add the glow effect
-      const glowEffect = card.parentElement.querySelector('.glow');
-      if (glowEffect) {
-        glowEffect.style.opacity = '1';
-      }
 
       setTimeout(() => {
         backgroundElement.style.transition = 'opacity 1s ease';
@@ -131,7 +135,7 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
       setTimeout(() => {
         bounds = card.getBoundingClientRect();
         card.addEventListener('mousemove', rotateToMouse);
-        card.addEventListener('mouseout', handleMouseOutSelected);
+        selectedCard.addEventListener('mouseout', handleMouseOutSelected);
       }, 800);
     }
 
