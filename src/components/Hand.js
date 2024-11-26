@@ -138,7 +138,9 @@ function Hand() {
           <img src="/images/pixelthumb.png" alt="Thumb" className="thumb" />
           <div className="overlay-top" ref={overlayTopRef}></div>
           <div className="card-background"></div>
-          <div className="card-shadow"></div>
+          <div className = "shadow-container">
+            <div className="card-shadow"></div>
+          </div>
         </div>
       </div>
     </div>

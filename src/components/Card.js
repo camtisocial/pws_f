@@ -9,9 +9,12 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
     const totalCards = cards.length;
     let translateX = 0;
     let translateY = 0;
+    let currentRotation = 0; // Initialize rotation
+    const rotationDuration = 4000; // Duration in milliseconds (4 seconds)
+    const intervalTime = 20; // Interval time in milliseconds
+    let animationFrameId; // Variable to store the animation frame ID
     let bounds;
-    let fuckItX;
-    let fuckItY;
+    let flip = false;
 
     function positionCards() {
       cards.forEach((card, index) => {
@@ -58,18 +61,15 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
         x: leftX - bounds.width / 2,
         y: topY - bounds.height / 2
       };
-      selectedCard.style.transformOrigin = 'center center';
       const maxRotation = 20;
       const rotateX = -(center.y / (bounds.height / 2)) * maxRotation;
       const rotateY = (center.x / (bounds.width / 2)) * maxRotation;
       const perspective = 1000; // Adjust perspective value for a more pronounced 3D effect
+
       selectedCard.parentElement.style.setProperty(`--mouse-x`, `${leftX}px`);
       selectedCard.parentElement.style.setProperty(`--mouse-y`, `${topY}px`);
       selectedCard.parentElement.style.setProperty(`--hover-opacity`, `0.15`);
-
-      fuckItX = leftX;
-      fuckItY = topY;
-
+      selectedCard.style.transformOrigin = 'center center';
       selectedCard.style.transitionDuration = '60ms'; // Speed up the 3D rotation animation
       selectedCard.style.transform = `
         scale3d(1.1, 1.1, 1.1)
@@ -77,63 +77,64 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
         rotateX(${rotateX}deg)
         rotateY(${rotateY}deg)
       `;
-      backgroundElement.style.transition = 'transform 200ms ease'; // Speed up the 3D rotation animation
-      backgroundElement.style.transform = `
-        perspective(${perspective}px)
-        translate(-10vw, -12vw)
-        rotateX(${rotateX * 0.3}deg)
-        rotateY(${rotateY * 0.3}deg)
-      `;
       backgroundShadow.style.transition = 'transform 60ms ease, opacity 0.5s ease, height 500ms ease'; // Add height transition
       backgroundShadow.style.opacity = '0.7';
       backgroundShadow.style.transform = `
         perspective(${perspective}px)
-        translate(-10vw, -10vw)
         rotateX(${rotateX * 0.8}deg)
         rotateY(${rotateY * 0.8}deg)
       `;
     }
 
-    function handleOverlayClick() {
-        console.log('clicked overlay');
-        overlayBottom.removeEventListener('click', handleOverlayClick);
-        overlayTop.removeEventListener('click', handleOverlayClick);
-      cards.forEach((card, index) => {
+    function easeOut(t) {
+      return 1 - Math.pow(1 - t, 3); // Cubic ease-out function
+    }
+
+    function funCardFlip(e) {
+      if (e.button === 0) {
+        let card = e.target;
         card.removeEventListener('mousemove', rotateToMouse);
+        card.removeEventListener('mouseout', handleMouseOutSelected);
+        card.style.transitionDuration = '500ms';
+        card.style.transform = `scale3d(1.1, 1.1, 1.1)`;
+        card.style.animation = 'flip 4.5s';
+        backgroundShadow.style.animation = 'flip 4.5s';
+
+
+      }
+    }
+
+    function handleOverlayClick() {
+      backgroundShadow.style.transition = 'opacity 0.15s ease';
+      backgroundShadow.style.opacity = '0';
+      console.log('clicked overlay');
+      overlayBottom.removeEventListener('click', handleOverlayClick);
+      overlayTop.removeEventListener('click', handleOverlayClick);
+      cards.forEach((card) => {
+        console.log('removing event listeners');
+        card.removeEventListener('mousemove', rotateToMouse);
+        card.removeEventListener('mouseout', handleMouseOutSelected);
+        card.removeEventListener('mousedown', funCardFlip);
         card.style.transformOrigin = 'bottom center';
       });
     }
 
     function handleMouseOutSelected() {
-      console.log(`fuckitX: ${fuckItX}px`);
-      console.log(`fuckitY: ${fuckItY}px`);
-      backgroundElement.style.transitionDuration = 'transform 1900ms';
-      backgroundElement.style.transform = `translate(-10vw, -12vw)`;
+      console.log('MOUSE OUT TRIGGERED');
       backgroundShadow.style.transitionDuration = 'transform 1900ms';
-      backgroundShadow.style.transform = `translate(-10vw, -10vw)`;
+      backgroundShadow.style.transform = '';
       backgroundShadow.style.opacity = '0';
       selectedCard.style.transitionDuration = '500ms';
       selectedCard.style.transform = `translate(${translateX}vw, ${translateY}vw)`;
-
-      selectedCard.parentElement.style.setProperty(`--mouse-y`, `${fuckItY}px`);
-      selectedCard.parentElement.style.setProperty(`--mouse-x`, `${fuckItX}px`);
       selectedCard.parentElement.style.setProperty(`--hover-opacity`, `0`);
     }
 
     function applyCardEffects(card) {
-      backgroundElement.style.transform = `translate(-10vw, -12vw)`;
-      backgroundShadow.style.transform = `translate(-10vw, -12vw)`;
-
-      setTimeout(() => {
-        backgroundElement.style.transition = 'opacity 1s ease';
-        backgroundElement.style.opacity = '0';
-        backgroundShadow.style.transition = 'opacity 1s ease';
-        backgroundShadow.style.opacity = '0.7';
-      }, 350);
       setTimeout(() => {
         bounds = card.getBoundingClientRect();
         card.addEventListener('mousemove', rotateToMouse);
         selectedCard.addEventListener('mouseout', handleMouseOutSelected);
+        selectedCard.addEventListener('mousedown', funCardFlip);
       }, 800);
     }
 
@@ -154,10 +155,6 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
     });
 
     return () => {
-      backgroundElement.style.transition = 'opacity 0.25s ease';
-      backgroundElement.style.opacity = '0';
-      backgroundShadow.style.transition = 'opacity 0.25s ease';
-      backgroundShadow.style.opacity = '0';
       cards.forEach((card) => {
         card.removeEventListener('mouseover', hoverEffect);
         card.removeEventListener('mouseout', positionCards);

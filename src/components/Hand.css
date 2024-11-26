@@ -22,6 +22,30 @@
   bottom: -45%;
 }
 
+@keyframes flip {
+  0% {
+    transform: rotateY(0deg) translateY(0);
+  }
+  25% {
+    transform: rotateY(900deg) translateY(3vh);
+  }
+  100% {
+    transform: rotateY(1800deg) translateY(-100vh);
+  }
+}
+
+@keyframes flipShadow {
+  0% {
+    transform: rotateY(0deg) translateY(-10vw) translateX(-10vw);
+  }
+  25% {
+    transform: rotateY(900deg) translateY(-7vw) translateX(-10vw);
+  }
+  100% {
+    transform: rotateY(1800deg) translateY(-100vh) translateX(-10vw);
+  }
+}
+
 .cards {
   perspective-origin: center;
   position: absolute;
@@ -39,11 +63,15 @@
 .card {
   position: absolute;
   perspective-origin: center;
+  transform-style: preserve-3d;
+  /* animation:cubic-bezier(0.4, -0.28, 0.735, 0.050); */
+  animation: cubic-bezier(0.68, -0.55, 0.27, 1.55);
   width: 15vw;
   height: auto;
   transform-origin: bottom center;
-  transition: transform 0.25s ease, z-index 0.0s ease, scale3d 3s ease;
+  transition: transform 0.25s ease, z-index 0s ease;
   cursor: pointer;
+  perspective: 1000px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 6px 20px rgba(0, 0, 0, 0.19); /* Add shadowy border */
   z-index: 2;
   pointer-events: auto;
@@ -53,16 +81,18 @@
 .card-container {
   position: absolute;
   perspective-origin: center;
+  transform-style: preserve-3d;
   bottom: -18vw;
   width: 15vw;
   pointer-events: none;
   height: 20vw;
   transition: bottom 0.5s ease, transform 0.5s ease;
   opacity: 1;
+  transform: translateY(0);
   --hover-opacity: 0.0;
 }
 
-.card-container::before{
+.card-container::before {
   content: '';
   position: absolute;
   width: 25vw;
@@ -79,34 +109,15 @@
   transition: opacity 0.3s ease;
 }
 
-.card-container:hover::before{
+.card-container:hover::before {
   opacity: var(--hover-opacity);
 }
 
-.glow {
+.card-shadow {
+  perspective-origin: center;
+  transform-style: preserve-3d;
+  transform-origin: center;
   position: absolute;
-  background-image: radial-gradient(circle, #ff9a9e, #fad0c4);
-}
-
-.card-background {
-  position: fixed;
-  bottom: -10vw;
-  left: 93%;
-  width: 20vw;
-  height: 25vw;
-  background: linear-gradient(45deg, #ff9a9e, #fad0c4);
-  z-index: 4; /* Ensure it is behind the card content */
-  pointer-events: none; /* Prevent it from blocking mouse events */
-  opacity: 0; /* Set default opacity to 0 */
-  border-radius: 25px;
-  transition: opacity 1.25s ease;
-  filter: blur(2px); /* Add blur to create shadow effect */
-}
-
-.card-shadow{
-  position: fixed;
-  bottom: -7vw;
-  left: 102%;
   width: 16vw;
   height: 20vw;
   background: black;
@@ -115,9 +126,21 @@
   opacity: 0; /* Set default opacity to 0 */
   border-radius: 25px;
   transition: opacity 1.25s ease;
-  filter: blur(10px); /* Add blur to create shadow effect */
+  filter: blur(10px); 
 }
 
+.shadow-container {
+  position: absolute;
+  bottom: 4vw;
+  margin-left: 27vw;
+  width: 15vw;
+  height: 20vw;
+  transition: bottom 0.5s ease, transform 0.5s ease;
+  pointer-events: none;
+  opacity: 1;
+  transform: translateY(0);
+  --hover-opacity: 0.0;
+}
 
 .hand {
   position: relative;
@@ -151,7 +174,7 @@
   transition: opacity 0.8s ease;
 }
 
-.overlay-top{
+.overlay-top {
   position: fixed;
   bottom: 10%;
   margin-left: 30vw;
