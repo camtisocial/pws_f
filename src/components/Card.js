@@ -86,10 +86,6 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
       `;
     }
 
-    function easeOut(t) {
-      return 1 - Math.pow(1 - t, 3); // Cubic ease-out function
-    }
-
     function funCardFlip(e) {
       if (e.button === 0) {
         let card = e.target;
@@ -97,8 +93,13 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
         card.removeEventListener('mouseout', handleMouseOutSelected);
         card.style.transitionDuration = '500ms';
         card.style.transform = `scale3d(1.1, 1.1, 1.1)`;
-        card.style.animation = 'flip 4.5s';
-        backgroundShadow.style.animation = 'flip 4.5s';
+        card.style.animation = 'flip 2s';
+        backgroundShadow.style.animation = 'flip 2.2s';
+        setTimeout(() => {
+          card.style.opacity = '0';
+          card.style.pointerEvents = 'none';
+          backgroundShadow.style.opacity = '0';
+        }, 1800);
 
 
       }
@@ -130,6 +131,10 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
     }
 
     function applyCardEffects(card) {
+      setTimeout(() => {
+        card.style.zIndex = 100;
+        card.parentElement.style.zIndex = 100;
+      }, 100);
       setTimeout(() => {
         bounds = card.getBoundingClientRect();
         card.addEventListener('mousemove', rotateToMouse);
