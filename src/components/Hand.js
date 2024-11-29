@@ -114,25 +114,26 @@ function Hand() {
 
   return (
     <div>
+    <div className="title">About</div>
+    {/* <div className="title">Joker Card</div>
+    <div className="title">Floppy Card</div>
+    <div className="title">Quill Card</div> */}
+      <div className="shadow-overlay"></div>
       <div className="hover-area"></div>
       <div className="hand-container">
         <img src="/images/pixelhand.png" alt="Hand" className="hand" />
         <div className="cards">
           <div className="card-container">
             <img src="/images/martiniCard.png" alt="Card 4" className="card" key="card-4" />
-            <div className="glow"></div>
           </div>
           <div className="card-container">
             <img src="/images/jokerCard.png" alt="Card 1" className="card" key="card-1" />
-            <div className="glow"></div>
           </div>
           <div className="card-container">
             <img src="/images/floppyCard.png" alt="Card 2" className="card" key="card-2" />
-            <div className="glow"></div>
           </div>
           <div className="card-container">
             <img src="/images/quillCard.png" alt="Card 3" className="card" key="card-3" />
-            <div className="glow"></div>
           </div>
           <div className="overlay-bottom" ref={overlayBottomRef}></div>
           <img src="/images/pixelthumb.png" alt="Thumb" className="thumb" />

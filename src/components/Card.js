@@ -3,18 +3,12 @@ import { useEffect } from 'react';
 const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop) => {
   useEffect(() => {
     const cards = document.querySelectorAll('.card');
-    let backgroundElement = document.querySelector('.card-background');
     let backgroundShadow = document.querySelector('.card-shadow');
     const spreadAngle = 60; 
     const totalCards = cards.length;
     let translateX = 0;
     let translateY = 0;
-    let currentRotation = 0; // Initialize rotation
-    const rotationDuration = 4000; // Duration in milliseconds (4 seconds)
-    const intervalTime = 20; // Interval time in milliseconds
-    let animationFrameId; // Variable to store the animation frame ID
     let bounds;
-    let flip = false;
 
     function positionCards() {
       cards.forEach((card, index) => {
