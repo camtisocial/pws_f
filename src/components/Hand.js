@@ -5,7 +5,8 @@ import './Hand.css';
 function Hand() {
   const overlayBottomRef = useRef(null);
   const overlayTopRef = useRef(null);
-  const [selectedCard, setSelectedCard] = useState(null);
+  const [selectedCard, setSelectedCard]= useState(null);
+  const [title, setTitle] = useState('');
 
   useCardEffects(selectedCard, setSelectedCard, overlayBottomRef.current, overlayTopRef.current);
 
@@ -22,19 +23,18 @@ function Hand() {
 
     function handleMouseOut() {
       handContainer.classList.remove('raised');
+
     }
 
     function resetFocus() {
-      // const cardContainer= selectedCard.parentElement;
-      // console.log('Resetting focus');
+      // const titleElement = document.querySelector('.title');
+      // titleElement.classList.remove('neon-blink');
 
       handContainer.classList.add('raised');
-
       overlayBottom.style.opacity = '0';
       overlayBottom.style.pointerEvents = 'none';
       overlayTop.style.opacity = '0';
       overlayTop.style.pointerEvents = 'none';
-
 
       cards.forEach((card) => {
         const cardContainer= card.parentElement;
@@ -75,10 +75,8 @@ function Hand() {
       const cardContainer= selectedCard.parentElement;
       cardContainer.style.transition= 'transform 0.80s ease, z-index 1s ease';
       cardContainer.style.transform = `translate(13.5vw, -24vw)`;
-      // cardContainer.style.zIndex = '60';
       selectedCard.style.transition = 'transform 0.80s ease, z-index 0.80s ease';
       selectedCard.style.transform = '';
-      // selectedCard.style.zIndex = '60';
 
 
       overlayBottom.style.opacity = '1.0';
@@ -114,10 +112,7 @@ function Hand() {
 
   return (
     <div>
-    <div className="title">About</div>
-    {/* <div className="title">Joker Card</div>
-    <div className="title">Floppy Card</div>
-    <div className="title">Quill Card</div> */}
+    <div className="title"> {title} </div>
       <div className="shadow-overlay"></div>
       <div className="hover-area"></div>
       <div className="hand-container">

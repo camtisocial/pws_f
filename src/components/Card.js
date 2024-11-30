@@ -25,6 +25,8 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
     }
 
     function hoverEffect(e) {
+      let titleCard = e.target;
+      const titleElement = document.querySelector('.title');
       const hoveredIndex = Array.from(cards).indexOf(e.target);
       const raiseAmount = 35;
 
@@ -42,8 +44,19 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
             selectedAngle = baseAngle + 1;
           }
           card.style.transform = `rotate(${selectedAngle}deg) translateY(-${raiseAmount}px)`;
+
         }
       });
+          if (titleElement) {
+            const title = titleCard.getAttribute('alt');
+            titleElement.textContent = title;
+            titleElement.classList.remove('neon-blink');
+            titleElement.classList.add('flicker');
+            titleElement.addEventListener('animationend', () => {
+              titleElement.classList.remove('flicker');
+              titleElement.classList.add('neon-blink');
+            }, { once: true });
+          }
     }
 
     function rotateToMouse(e) {
@@ -116,6 +129,8 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
 
     function handleMouseOutSelected() {
       console.log('MOUSE OUT TRIGGERED');
+      // const titleElement = document.querySelector('.title');
+      // titleElement.classList.remove('neon-blink');
       backgroundShadow.style.transitionDuration = 'transform 1900ms';
       backgroundShadow.style.transform = '';
       backgroundShadow.style.opacity = '0';
