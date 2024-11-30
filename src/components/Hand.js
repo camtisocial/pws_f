@@ -119,16 +119,16 @@ function Hand() {
         <img src="/images/pixelhand.png" alt="Hand" className="hand" />
         <div className="cards">
           <div className="card-container">
-            <img src="/images/martiniCard.png" alt="Card 4" className="card" key="card-4" />
+            <img src="/images/martiniCard.png" alt="Contact" className="card" key="card-4" />
           </div>
           <div className="card-container">
-            <img src="/images/jokerCard.png" alt="Card 1" className="card" key="card-1" />
+            <img src="/images/jokerCard.png" alt="Blog" className="card" key="card-1" />
           </div>
           <div className="card-container">
-            <img src="/images/floppyCard.png" alt="Card 2" className="card" key="card-2" />
+            <img src="/images/floppyCard.png" alt="About" className="card" key="card-2" />
           </div>
           <div className="card-container">
-            <img src="/images/quillCard.png" alt="Card 3" className="card" key="card-3" />
+            <img src="/images/quillCard.png" alt="GuestBook" className="card" key="card-3" />
           </div>
           <div className="overlay-bottom" ref={overlayBottomRef}></div>
           <img src="/images/pixelthumb.png" alt="Thumb" className="thumb" />

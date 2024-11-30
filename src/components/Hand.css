@@ -99,12 +99,13 @@
 
 .title {
   position: absolute;
-  margin-top: 7.5vw;
-  margin-left: 33vw;
+  margin-top: 6vw;
+  margin-left: 53vw;
   transform: translateX(-50%);
   opacity: 0;
+  width: 80vw;
   transition: opacity 0.3s ease, transform 0.3s ease;
-  font-size: 10vw; /* Use viewport width for responsive font size */
+  font-size: 8vw; /* Use viewport width for responsive font size */
   color: pink;
   text-shadow: var(--neon-effect);
   z-index: 10; /* Ensure the title is on top */

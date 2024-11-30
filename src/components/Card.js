@@ -47,17 +47,23 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
 
         }
       });
-          if (titleElement) {
-            const title = titleCard.getAttribute('alt');
-            titleElement.textContent = title;
-            titleElement.classList.remove('neon-blink');
-            titleElement.classList.add('flicker');
-            titleElement.addEventListener('animationend', () => {
-              titleElement.classList.remove('flicker');
-              titleElement.classList.add('neon-blink');
-            }, { once: true });
-          }
     }
+
+    function titleEffect(e) {
+      let titleCard = e.target;
+      const titleElement = document.querySelector('.title');
+        if (titleElement) {
+          const title = titleCard.getAttribute('alt');
+          titleElement.textContent = title;
+          titleElement.classList.remove('neon-blink');
+          titleElement.classList.add('flicker');
+          titleElement.addEventListener('animationend', () => {
+            titleElement.classList.remove('flicker');
+            titleElement.classList.add('neon-blink');
+          }, { once: true });
+        }
+    }
+
 
     function rotateToMouse(e) {
       const mouseX = e.clientX;
@@ -115,6 +121,7 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
     function handleOverlayClick() {
       backgroundShadow.style.transition = 'opacity 0.15s ease';
       backgroundShadow.style.opacity = '0';
+      const titleElement = document.querySelector('.title');
       console.log('clicked overlay');
       overlayBottom.removeEventListener('click', handleOverlayClick);
       overlayTop.removeEventListener('click', handleOverlayClick);
@@ -125,6 +132,9 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
         card.removeEventListener('mousedown', funCardFlip);
         card.style.transformOrigin = 'bottom center';
       });
+      setTimeout(() => {
+        titleElement.style.zIndex = 1;
+      } , 500);
     }
 
     function handleMouseOutSelected() {
@@ -140,6 +150,12 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
     }
 
     function applyCardEffects(card) {
+      const titleElement = document.querySelector('.title');
+      titleElement.classList.remove('flicker');
+      titleElement.classList.add('neon-blink');
+      titleElement.style.zIndex = 0;
+
+      card.removeEventListener('mouseover', titleEffect);
       setTimeout(() => {
         card.style.zIndex = 100;
         card.parentElement.style.zIndex = 100;
@@ -147,30 +163,47 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
       setTimeout(() => {
         bounds = card.getBoundingClientRect();
         card.addEventListener('mousemove', rotateToMouse);
-        selectedCard.addEventListener('mouseout', handleMouseOutSelected);
-        selectedCard.addEventListener('mousedown', funCardFlip);
+        card.addEventListener('mouseout', handleMouseOutSelected);
+        card.addEventListener('mousedown', funCardFlip);
       }, 800);
     }
+
 
     if (overlayBottom && overlayTop) {
       overlayBottom.addEventListener('click', handleOverlayClick);
       overlayTop.addEventListener('click', handleOverlayClick);
     }
 
-    if (selectedCard) {
-      applyCardEffects(selectedCard);
-    } else {
-      positionCards();
-    }
+    // if (selectedCard) {
+    //   applyCardEffects(selectedCard);
+    //   selectedCard.removeEventListener('mouseover', titleEffect);
+    // } else {
+    //   positionCards();
+    // }
 
     cards.forEach((card) => {
-      card.addEventListener('mouseover', hoverEffect);
-      card.addEventListener('mouseout', positionCards);
+      if (card === selectedCard) {
+        // Apply effects specifically for the selected card
+        applyCardEffects(card);
+      } else {
+        // Add hover effects for unselected cards
+        card.addEventListener('mouseover', hoverEffect);
+        card.addEventListener('mouseover', titleEffect);
+        card.addEventListener('mouseout', positionCards);
+        positionCards();
+      }
     });
+
+    // cards.forEach((card) => {
+    //   card.addEventListener('mouseover', hoverEffect);
+    //   card.addEventListener('mouseover', titleEffect);
+    //   card.addEventListener('mouseout', positionCards);
+    // });
 
     return () => {
       cards.forEach((card) => {
         card.removeEventListener('mouseover', hoverEffect);
+        card.removeEventListener('mouseover', titleEffect);
         card.removeEventListener('mouseout', positionCards);
         card.removeEventListener('mousemove', rotateToMouse);
         card.removeEventListener('mouseout', handleMouseOutSelected);
