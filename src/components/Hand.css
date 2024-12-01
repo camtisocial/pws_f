@@ -110,7 +110,7 @@
 
 .title {
   position: absolute;
-  margin-top: 6vw;
+  margin-top: 9vw;
   margin-left: 53vw;
   transform: translateX(-50%);
   opacity: 0;
@@ -242,6 +242,28 @@
   transition: opacity 0.3s ease;
 }
 
+.card-container::after {
+  background: radial-gradient(circle, #ffffff, #0000000f);
+  position: absolute;
+  margin-top: 10vw;
+  margin-left: -1vw;
+  content: '';
+  width: 17vw;
+  height: 12.5vw;
+  opacity: 0;
+  transform: translateZ(200px);
+  border-radius: 50%;
+  pointer-events: none;
+  background-image: radial-gradient(circle, #0000008f, #00000000);
+  z-index: 400;
+  filter: blur(90px);
+  transition: opacity 0.3s ease;
+}
+
+.card-container.shadow::after{
+  opacity: 1; 
+}
+
 .card-container:hover::before {
   opacity: var(--hover-opacity);
 }
@@ -293,6 +315,23 @@
   transform: translateX(-50%);
 }
 
+.hand-container::after {
+  background: radial-gradient(circle, #ffffff, #0000000f);
+  position: absolute;
+  margin-top: 20vw;
+  margin-left: -35vw;
+  content: '';
+  width: 30vw;
+  height: 30vw;
+  opacity: 1;
+  border-radius: 50%;
+  pointer-events: none;
+  background-image: radial-gradient(circle, #000000a4, #0000000f);
+  z-index: 4;
+  filter: blur(90px);
+  transition: opacity 0.3s ease;
+}
+
 .overlay-bottom {
   position: fixed;
   top: 10%;
@@ -319,4 +358,68 @@
   display: block;
   pointer-events: none;
   transition: opacity 0.8s ease;
+}
+
+.board {
+  position: absolute;
+  opacity: .5;
+  height: 40vh;
+  width: 40vh;
+  left: 45vw;
+  top: -5vw;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.board::after {
+  position: absolute;
+  content: '';
+  background-image: radial-gradient(circle, #000000e1, #0000000f);
+  border-radius: 50%;
+  opacity: 1;
+  margin-top: -7vw;
+  height: 40vh;
+  width: 40vh;
+  filter: blur(50px);
+}
+
+.fish {
+  position: absolute;
+  opacity: .6;
+  height: 30vh;
+  width: 50vh;
+  left: 70vw;
+  top: 11vw;
+  z-index: 10;
+  background-size: contain;
+  /* border: 3px solid red; */
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.route{
+  position: absolute;
+  opacity: .3;
+  height: 40vh;
+  width: 40vh;
+  left: -9vw;
+  top: -6vw;
+  z-index: 0;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.route::after {
+  position: absolute;
+  content: '';
+  background-image: radial-gradient(circle, #000000e1, #0000000f);
+  border-radius: 50%;
+  opacity: 1;
+  margin-left: -10vw;
+  margin-top: -5vw;
+  height: 40vh;
+  width: 70vh;
+  filter: blur(50px);
 }

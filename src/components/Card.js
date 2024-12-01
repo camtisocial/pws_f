@@ -141,6 +141,7 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
       overlayTop.removeEventListener('click', handleOverlayClick);
       cards.forEach((card) => {
         console.log('removing event listeners');
+        card.parentElement.classList.remove('shadow');
         card.removeEventListener('mousemove', rotateToMouse);
         card.removeEventListener('mouseout', handleMouseOutSelected);
         card.removeEventListener('mousedown', funCardFlip);
@@ -189,6 +190,7 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
     cards.forEach((card) => {
       if (card === selectedCard) {
         applyCardEffects(card);
+        card.parentElement.classList.add('shadow');
       } else {
         card.addEventListener('mouseover', hoverEffect);
         card.addEventListener('mouseout', positionCards);

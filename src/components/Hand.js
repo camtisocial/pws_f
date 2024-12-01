@@ -12,11 +12,21 @@ function Hand() {
   useCardEffects(selectedCard, setSelectedCard, overlayBottomRef.current, overlayTopRef.current);
 
   useEffect(() => {
+    const fish = document.querySelector('.fish');
     const cards = document.querySelectorAll('.card');
     const handContainer = document.querySelector('.hand-container');
     const hoverArea = document.querySelector('.hover-area');
     const overlayBottom = overlayBottomRef.current;
     const overlayTop = overlayTopRef.current;
+
+    fish.addEventListener('mouseover', () => {
+      console.log('Fish is hovering');
+      fish.style.backgroundImage = "url('/images/cut fish 2.png')";
+    });
+    fish.addEventListener('mouseout', () => {
+      fish.style.backgroundImage = "url('/images/cut fish 1.png')";
+      console.log('Fish is no longer hovering');
+    });
 
     function handleMouseOver() {
       const titleElement = document.querySelector('.title');
@@ -121,7 +131,11 @@ function Hand() {
     <div>
     <div className="title"> {title} </div>
       <div className="shadow-overlay"></div>
+      <div className="route" style={{ backgroundImage: "url('/images/cut route.png')"}}></div>
+      <div className="fish" style={{ backgroundImage: "url('/images/cut fish 1.png')"}}></div>
+      <div className="board" style={{ backgroundImage: "url('/images/dartBoard.png')"}}></div>
       <div className="hover-area"></div>
+      <div className="hand-shadow"></div>
       <div className="hand-container">
         <img src="/images/pixelhand.png" alt="Hand" className="hand" />
         <div className="cards">
