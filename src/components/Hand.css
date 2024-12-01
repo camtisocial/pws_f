@@ -11,16 +11,36 @@
     0 0 250px rgba(255, 0, 0, 1),
     0 0 300px rgba(255, 0, 0, 1),
     -250px -100px 100px rgba(255, 0, 0, 1);
+    --neon-effect-off: 0 0 0 transparent,
+    0 0 20px rgb(0, 0, 0),
+    0 0 50px rgba(0, 0, 0, .5),
+    0 0 200px rgba(0, 0, 0, .5),
+    0 0 250px rgba(0, 0, 0, 1),
+    0 0 300px rgba(0, 0, 0, 1),
+    -250px -100px 100px rgba(0, 0, 0, 1);
+  --text-color-off: #333;
 }
 
 @keyframes flicker {
   0% {
     opacity: 0;
   }
-  50% {
+  30% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  55% {
     opacity: 0;
   }
   60% {
+    opacity: 1;
+  }
+  65% {
+    opacity: 0;
+  }
+  70% {
     opacity: 1;
   }
   75% {
@@ -28,15 +48,6 @@
   }
   80% {
     opacity: 1;
-  }
-  85% {
-    opacity: 0;
-  }
-  90% {
-    opacity: 1;
-  }
-  95% {
-    opacity: 0;
   }
   100% {
     opacity: 1;
@@ -105,20 +116,27 @@
   opacity: 0;
   width: 80vw;
   transition: opacity 0.3s ease, transform 0.3s ease;
-  font-size: 8vw; /* Use viewport width for responsive font size */
+  font-size: 8vw;
   color: pink;
   text-shadow: var(--neon-effect);
-  z-index: 10; /* Ensure the title is on top */
+  z-index: 10;
   pointer-events: none;
   font-family: var(--font-family-display);
 }
 
 .title.flicker {
-  animation: flicker 1s forwards; /* Play flicker animation once */
+  animation: flicker 1s forwards;
 }
 
 .title.neon-blink {
-  animation: neon-blink 5s infinite alternate; /* Play neon-blink animation indefinitely */
+  animation: neon-blink 5s infinite alternate;
+}
+
+.title.off {
+  color: var(--text-color-off);
+  text-shadow: var(--neon-effect-off);
+  opacity: 1;
+  animation: none;
 }
 
 .hand-container {
@@ -155,7 +173,7 @@
   opacity: .8;
   transition: opacity 0.5s ease;
   z-index: 0;
-  pointer-events: none; /* Ensure it doesn't block interactions */
+  pointer-events: none; 
 }
 
 .cards {
@@ -183,7 +201,7 @@
   transition: transform 0.25s ease, z-index 0s ease;
   cursor: pointer;
   perspective: 1000px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 6px 20px rgba(0, 0, 0, 0.19); /* Add shadowy border */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 6px 20px rgba(0, 0, 0, 0.19); 
   z-index: 2;
   pointer-events: auto;
   border-radius: 15px;
@@ -233,12 +251,12 @@
   transform-style: preserve-3d;
   transform-origin: center;
   position: absolute;
-  width: 16vw;
-  height: 20vw;
+  width: 17vw;
+  height: 21vw;
   background: black;
-  z-index: 4; /* Ensure it is behind the card content */
-  pointer-events: none; /* Prevent it from blocking mouse events */
-  opacity: 0; /* Set default opacity to 0 */
+  z-index: 4; 
+  pointer-events: none; 
+  opacity: 0; 
   border-radius: 25px;
   transition: opacity 1.25s ease;
   filter: blur(10px); 

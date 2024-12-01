@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop) => {
+  const initialTitleSet = useRef(false);
   useEffect(() => {
     const cards = document.querySelectorAll('.card');
     let backgroundShadow = document.querySelector('.card-shadow');
@@ -10,6 +11,17 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
     let translateY = 0;
     let bounds;
 
+    const titleElement = document.querySelector('.title');
+    if (titleElement && !initialTitleSet.current) {
+      titleElement.textContent = 'Welcome';
+      titleElement.classList.add('flicker');
+      titleElement.addEventListener('animationend', () => {
+        titleElement.classList.remove('flicker');
+        titleElement.classList.add('neon-blink');
+      }, { once: true });
+      initialTitleSet.current = true;
+    }
+
     function positionCards() {
       cards.forEach((card, index) => {
          if (card !== selectedCard) {
@@ -18,6 +30,7 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
            card.style.perspective = '0px';
            card.style.zIndex = index - 1; 
            setTimeout(() => {
+            card.addEventListener('mouseover', titleEffect);
             card.style.transition = 'transform 0.25s ease';
            }, 300);
          }
@@ -25,8 +38,6 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
     }
 
     function hoverEffect(e) {
-      let titleCard = e.target;
-      const titleElement = document.querySelector('.title');
       const hoveredIndex = Array.from(cards).indexOf(e.target);
       const raiseAmount = 35;
 
@@ -53,14 +64,17 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
       let titleCard = e.target;
       const titleElement = document.querySelector('.title');
         if (titleElement) {
-          const title = titleCard.getAttribute('alt');
-          titleElement.textContent = title;
-          titleElement.classList.remove('neon-blink');
-          titleElement.classList.add('flicker');
-          titleElement.addEventListener('animationend', () => {
-            titleElement.classList.remove('flicker');
-            titleElement.classList.add('neon-blink');
-          }, { once: true });
+          if (titleElement.textContext !== titleCard.getAttribute('alt')) {
+           titleElement.textContent= titleCard.getAttribute('alt');
+           titleElement.classList.remove('neon-blink');
+           titleElement.classList.add('flicker');
+           titleElement.addEventListener('animationend', () => {
+             titleElement.classList.remove('flicker');
+             titleElement.classList.add('neon-blink');
+           }, { once: true });
+        } else {
+          titleElement.classList.add('neon-blink');
+        }
         }
     }
 
@@ -77,21 +91,21 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
       const maxRotation = 20;
       const rotateX = -(center.y / (bounds.height / 2)) * maxRotation;
       const rotateY = (center.x / (bounds.width / 2)) * maxRotation;
-      const perspective = 1000; // Adjust perspective value for a more pronounced 3D effect
+      const perspective = 1000;
 
       selectedCard.parentElement.style.setProperty(`--mouse-x`, `${leftX}px`);
       selectedCard.parentElement.style.setProperty(`--mouse-y`, `${topY}px`);
       selectedCard.parentElement.style.setProperty(`--hover-opacity`, `0.15`);
       selectedCard.style.transformOrigin = 'center center';
-      selectedCard.style.transitionDuration = '60ms'; // Speed up the 3D rotation animation
+      selectedCard.style.transitionDuration = '60ms';
       selectedCard.style.transform = `
         scale3d(1.1, 1.1, 1.1)
         perspective(${perspective}px)
         rotateX(${rotateX}deg)
         rotateY(${rotateY}deg)
       `;
-      backgroundShadow.style.transition = 'transform 60ms ease, opacity 0.5s ease, height 500ms ease'; // Add height transition
-      backgroundShadow.style.opacity = '0.7';
+      backgroundShadow.style.transition = 'transform 60ms ease, opacity 0.5s ease, height 500ms ease';
+      backgroundShadow.style.opacity = '0.8';
       backgroundShadow.style.transform = `
         perspective(${perspective}px)
         rotateX(${rotateX * 0.8}deg)
@@ -138,9 +152,6 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
     }
 
     function handleMouseOutSelected() {
-      console.log('MOUSE OUT TRIGGERED');
-      // const titleElement = document.querySelector('.title');
-      // titleElement.classList.remove('neon-blink');
       backgroundShadow.style.transitionDuration = 'transform 1900ms';
       backgroundShadow.style.transform = '';
       backgroundShadow.style.opacity = '0';
@@ -174,31 +185,16 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
       overlayTop.addEventListener('click', handleOverlayClick);
     }
 
-    // if (selectedCard) {
-    //   applyCardEffects(selectedCard);
-    //   selectedCard.removeEventListener('mouseover', titleEffect);
-    // } else {
-    //   positionCards();
-    // }
 
     cards.forEach((card) => {
       if (card === selectedCard) {
-        // Apply effects specifically for the selected card
         applyCardEffects(card);
       } else {
-        // Add hover effects for unselected cards
         card.addEventListener('mouseover', hoverEffect);
-        card.addEventListener('mouseover', titleEffect);
         card.addEventListener('mouseout', positionCards);
         positionCards();
       }
     });
-
-    // cards.forEach((card) => {
-    //   card.addEventListener('mouseover', hoverEffect);
-    //   card.addEventListener('mouseover', titleEffect);
-    //   card.addEventListener('mouseout', positionCards);
-    // });
 
     return () => {
       cards.forEach((card) => {

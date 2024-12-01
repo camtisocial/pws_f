@@ -5,8 +5,9 @@ import './Hand.css';
 function Hand() {
   const overlayBottomRef = useRef(null);
   const overlayTopRef = useRef(null);
+  const titleElement = document.querySelector('.title');
   const [selectedCard, setSelectedCard]= useState(null);
-  const [title, setTitle] = useState('');
+  const [title] = useState('Welcome');
 
   useCardEffects(selectedCard, setSelectedCard, overlayBottomRef.current, overlayTopRef.current);
 
@@ -18,19 +19,24 @@ function Hand() {
     const overlayTop = overlayTopRef.current;
 
     function handleMouseOver() {
+      const titleElement = document.querySelector('.title');
       handContainer.classList.add('raised');
+      if (titleElement) {
+        titleElement.classList.remove('off');
+      }
     }
 
     function handleMouseOut() {
+      const titleElement = document.querySelector('.title');
       handContainer.classList.remove('raised');
-
+      if (titleElement && selectedCard === null) {
+        titleElement.classList.add('off');
+      }
     }
 
     function resetFocus() {
-      // const titleElement = document.querySelector('.title');
-      // titleElement.classList.remove('neon-blink');
-
       handContainer.classList.add('raised');
+      titleElement.classList.remove('off');
       overlayBottom.style.opacity = '0';
       overlayBottom.style.pointerEvents = 'none';
       overlayTop.style.opacity = '0';
@@ -69,6 +75,7 @@ function Hand() {
 
     if (selectedCard) {
       console.log('Selected card:', selectedCard);
+      titleElement.classList.remove('off');
 
       handContainer.classList.remove('raised');
 
@@ -108,7 +115,7 @@ function Hand() {
       overlayTop.removeEventListener('click', resetFocus);
 
     };
-  }, [selectedCard]);
+  }, );
 
   return (
     <div>
