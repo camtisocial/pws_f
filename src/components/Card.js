@@ -13,6 +13,7 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
 
     const titleElement = document.querySelector('.title');
     if (titleElement && !initialTitleSet.current) {
+      setTimeout(() => {
       titleElement.textContent = 'Welcome';
       titleElement.classList.add('flicker');
       titleElement.addEventListener('animationend', () => {
@@ -20,6 +21,7 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
         titleElement.classList.add('neon-blink');
       }, { once: true });
       initialTitleSet.current = true;
+      }, 400);
     }
 
     function positionCards() {

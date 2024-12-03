@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useCardEffects from './Card';
 import './Hand.css';
 
@@ -8,6 +9,7 @@ function Hand() {
   const titleElement = document.querySelector('.title');
   const [selectedCard, setSelectedCard]= useState(null);
   const [title] = useState('Welcome');
+  const navigate = useNavigate();
 
   useCardEffects(selectedCard, setSelectedCard, overlayBottomRef.current, overlayTopRef.current);
 
@@ -62,6 +64,30 @@ function Hand() {
       card.addEventListener('mouseover', handleMouseOver);
       card.addEventListener('click', (e) => {
         if (selectedCard === card) {
+          setTimeout(() => {
+          const altText = selectedCard.getAttribute('alt');
+          switch (altText) {
+            case 'Contact':
+              navigate('/contact');
+              console.log('Clicked on contact card');
+              break;
+            case 'Blog':
+              navigate('/blog');
+              console.log('Clicked on blog card');
+              break;
+            case 'About':
+              navigate('/about');
+              console.log('Clicked on about card');
+              break;
+            case 'GuestBook':
+              navigate('/guestbook');
+              console.log('Clicked on guestBook card');
+              break;
+            default:
+              break;
+          }
+        }, 1500);
+
           console.log('Clicked on the selected card:opacity', selectedCard);
         } else {
           setSelectedCard(card);
@@ -118,7 +144,6 @@ function Hand() {
     <div>
     <div className="title"> {title} </div>
       <div className="shadow-overlay"></div>
-
       <div className="ashtray" style={{ backgroundImage: "url('/images/ashTray.png')"}}></div>
       <div className="smoke" style={{ backgroundImage: "url('/images/smoke.png')"}}></div>
       <div className="smoke2" style={{ backgroundImage: "url('/images/smoke.png')"}}></div>
