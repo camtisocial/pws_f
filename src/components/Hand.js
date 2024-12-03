@@ -21,28 +21,19 @@ function Hand() {
 
     fish.addEventListener('mouseover', () => {
       console.log('Fish is hovering');
-      fish.style.backgroundImage = "url('/images/cut fish 2.png')";
+      fish.style.backgroundImage = "url('/images/CF2_less_pixels.png')";
+      fish.style.opacity = '.6';
     });
     fish.addEventListener('mouseout', () => {
-      fish.style.backgroundImage = "url('/images/cut fish 1.png')";
+      fish.style.backgroundImage = "url('/images/CF1_less_pixels.png')";
+      fish.style.opacity = '.6';
       console.log('Fish is no longer hovering');
     });
 
     function handleMouseOver() {
-      const titleElement = document.querySelector('.title');
       handContainer.classList.add('raised');
-      if (titleElement) {
-        titleElement.classList.remove('off');
-      }
     }
 
-    function handleMouseOut() {
-      const titleElement = document.querySelector('.title');
-      handContainer.classList.remove('raised');
-      if (titleElement && selectedCard === null) {
-        titleElement.classList.add('off');
-      }
-    }
 
     function resetFocus() {
       handContainer.classList.add('raised');
@@ -66,11 +57,9 @@ function Hand() {
     }
 
     hoverArea.addEventListener('mouseover', handleMouseOver);
-    hoverArea.addEventListener('mouseout', handleMouseOut);
 
     cards.forEach((card) => {
       card.addEventListener('mouseover', handleMouseOver);
-      card.addEventListener('mouseout', handleMouseOut);
       card.addEventListener('click', (e) => {
         if (selectedCard === card) {
           console.log('Clicked on the selected card:opacity', selectedCard);
@@ -107,11 +96,9 @@ function Hand() {
 
     return () => {
       hoverArea.removeEventListener('mouseover', handleMouseOver);
-      hoverArea.removeEventListener('mouseout', handleMouseOut);
 
       cards.forEach((card) => {
         card.removeEventListener('mouseover', handleMouseOver);
-        card.removeEventListener('mouseout', handleMouseOut);
         card.removeEventListener('click', (e) => {
           if (selectedCard === card) {
             console.log('Clicked on the selected card');
@@ -131,25 +118,32 @@ function Hand() {
     <div>
     <div className="title"> {title} </div>
       <div className="shadow-overlay"></div>
-      <div className="route" style={{ backgroundImage: "url('/images/cut route.png')"}}></div>
-      <div className="fish" style={{ backgroundImage: "url('/images/cut fish 1.png')"}}></div>
+
+      <div className="ashtray" style={{ backgroundImage: "url('/images/ashTray.png')"}}></div>
+      <div className="smoke" style={{ backgroundImage: "url('/images/smoke.png')"}}></div>
+      <div className="smoke2" style={{ backgroundImage: "url('/images/smoke.png')"}}></div>
+      <div className="smoke3" style={{ backgroundImage: "url('/images/smoke.png')"}}></div>
+      <div className="ashtray-glow" ></div>
       <div className="board" style={{ backgroundImage: "url('/images/dartBoard.png')"}}></div>
+      <div className="route" style={{ backgroundImage: "url('/images/cut route.png')"}}></div>
+      <div className="fish" style={{ backgroundImage: "url('/images/CF1_less_pixels.png')"}}></div>
+
       <div className="hover-area"></div>
       <div className="hand-shadow"></div>
       <div className="hand-container">
         <img src="/images/pixelhand.png" alt="Hand" className="hand" />
         <div className="cards">
           <div className="card-container">
-            <img src="/images/martiniCard.png" alt="Contact" className="card" key="card-4" />
+            <img src="/images/martini.png" alt="Contact" className="card" key="card-4" />
           </div>
           <div className="card-container">
-            <img src="/images/jokerCard.png" alt="Blog" className="card" key="card-1" />
+            <img src="/images/joker.png" alt="Blog" className="card" key="card-1" />
           </div>
           <div className="card-container">
             <img src="/images/floppyCard.png" alt="About" className="card" key="card-2" />
           </div>
           <div className="card-container">
-            <img src="/images/quillCard.png" alt="GuestBook" className="card" key="card-3" />
+            <img src="/images/quill.png" alt="GuestBook" className="card" key="card-3" />
           </div>
           <div className="overlay-bottom" ref={overlayBottomRef}></div>
           <img src="/images/pixelthumb.png" alt="Thumb" className="thumb" />
