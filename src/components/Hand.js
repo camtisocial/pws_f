@@ -60,6 +60,8 @@ function Hand() {
 
     hoverArea.addEventListener('mouseover', handleMouseOver);
 
+
+    //Note bug where if the user clicks before the card is at the center of the page it doesn't navigate
     cards.forEach((card) => {
       card.addEventListener('mouseover', handleMouseOver);
       card.addEventListener('click', (e) => {
