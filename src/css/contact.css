@@ -240,6 +240,17 @@
     margin: 0 auto;
 }
 
+.notification {
+    font-size: 1.25rem;
+    color: #fff;
+    text-align: center;
+    width: 80%;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    line-height: 1.5;
+    padding: 10px;
+    margin: 0 auto;
+}
+
 .contact-info li {
     margin: 1vw;
 }
