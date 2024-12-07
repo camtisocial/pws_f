@@ -1,7 +1,7 @@
 import React from 'react';
-import '../components/BackButton';
+import '../components/HomeButton';
 import '../css/about.css';
-import BackButton from '../components/BackButton';
+import HomeButton from '../components/HomeButton';
 
 function About() {
   return (
@@ -22,7 +22,7 @@ function About() {
            </ul>
         </p>
       </div>
-      <BackButton />
+      <HomeButton />
     </div>
   );
 }

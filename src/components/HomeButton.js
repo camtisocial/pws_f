@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './BackButton.css'; // Import the CSS file
+import './HomeButton.css'; // Import the CSS file
 
-function BackButton() {
+function HomeButton() {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -16,4 +16,4 @@ function BackButton() {
   );
 }
 
-export default BackButton;
+export default HomeButton;
