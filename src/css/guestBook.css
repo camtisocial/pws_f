@@ -1,0 +1,60 @@
+.guestBook {
+    background-image: url('../../public/images/background1.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    overflow: hidden;
+    height: 100vh;
+    width: 100%;
+}
+
+.map-wrapper {
+    position: relative;
+    width: 70%;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    /* border: 2px solid blue; */
+    justify-content: center;
+    align-items: center;
+}
+
+.map-container {
+    /* border: 9px solid red; */
+    width: 90vh;
+    height: 63vh;
+    display: flex;
+    border-radius: 20px;
+}
+
+.map-container.pin-mode {
+    cursor: crosshair;
+}
+
+.map-button-container {
+    /* border: 2px solid rgb(0, 219, 55); */
+    display: flex;
+    gap: 4vw;
+}
+
+.map-button {
+    margin: 10px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    z-index: 8;
+}
+
+.map-button:hover {
+    background-color: #f0f0f0;
+}
+
+.default-view {
+    top: 20%;
+    left: 70%;
+}
