@@ -1,6 +1,8 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef} from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop) => {
+  const navigate = useNavigate();
   const initialTitleSet = useRef(false);
   useEffect(() => {
     const cards = document.querySelectorAll('.card');
@@ -128,9 +130,31 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
           card.style.opacity = '0';
           card.style.pointerEvents = 'none';
           backgroundShadow.style.opacity = '0';
-        }, 1800);
 
-
+          // Add navigation logic here
+          const altText = card.getAttribute('alt');
+          switch (altText) {
+            case 'Contact':
+              navigate('/contact');
+              console.log('Navigating to contact page');
+              break;
+            case 'Blog':
+              navigate('/blog');
+              console.log('Navigating to blog page');
+              break;
+            case 'About':
+              navigate('/about');
+              console.log('Navigating to about page');
+              break;
+            case 'GuestBook':
+              navigate('/guestbook');
+              console.log('Navigating to guestbook page');
+              break;
+            default:
+              console.log('No navigation for this card');
+              break;
+          }
+        }, 1800); // Adjust the timeout if needed
       }
     }
 
