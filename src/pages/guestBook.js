@@ -33,7 +33,7 @@ function GuestBook() {
     navigator.geolocation.getCurrentPosition((pos) => {
       const { latitude, longitude } = pos.coords;
       setPosition([latitude, longitude]);
-      setZoom(5);
+      setZoom(6);
       console.log(`Your position is: ${latitude}, ${longitude}`);
     })
   };
@@ -117,26 +117,29 @@ function GuestBook() {
   }
 
   function handleQuestionClick() {
+    //TODO add a modal to display the instructions
     alert("Hover over pins in the map to read messages from other visitors, or drop a pin and leave a message of your own!");
   }
 
   return (
     <div className="guestBook">
-          <div className="question-mark-wrapper">
-             <img className="question-mark" src="/images/questionMark.png" alt="Question Mark" onClick={handleQuestionClick} />
-          </div>
-        <div className="pin-menu">
-           <button className="map-button defakult-view" onClick={SetDefaultPosition}>Default View</button>
-           <button className="map-button user-position" onClick={SetLocalPosition}>Local View</button>
-           <button className="map-button grab-pin" onClick={TogglePinMode}>Grab Pin</button>
-          <textarea
-            className="message-inputz"
-            value={userNote}
-            onChange={handleChange}
-            placeholder="Type your message here..."
-          ></textarea>
-           <button className="map-button save-message" onClick={savePinToDb}>Save Message</button>
+        <div className="question-mark-wrapper">
+          <img className="question-mark" src="/images/questionMark.png" alt="Question Mark" onClick={handleQuestionClick} />
         </div>
+        <div className="pin-menu-wrapper">
+          <div className="pin-menu">
+             <button className="map-button" onClick={SetDefaultPosition}>Default View</button>
+             <button className="map-button" onClick={SetLocalPosition}>Local View</button>
+             <button className="map-button" onClick={TogglePinMode}>Grab Pin</button>
+            <textarea
+              className="message-inputz"
+              value={userNote}
+              onChange={handleChange}
+              placeholder="Type your message here..."
+            ></textarea>
+             <button className="map-button" onClick={savePinToDb}>Save Message</button>
+          </div>
+         </div> 
         <div className="mw-khrom">
           <div className="page-title">
              <img src="/images/guestText2.png" alt="Guest Text" />

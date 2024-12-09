@@ -67,35 +67,6 @@
     transition: transform 0.3s, opacity 0.3s, filter 0.3s;
 }
 
-.pin-menu {
-    position: absolute;
-    width: 20%;
-    height: 50%;
-    display: flex;
-    flex-direction: column;
-    top: 24%;
-    left: 77%;
-}
-
-.message-inputz {
-    border: 1px solid #ccc;
-    font-size: 1.25rem;
-    color: #fff;
-    text-align: left;
-    margin-left: 5%;
-    margin-top: 8%;
-    margin-bottom: 5%;
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    line-height: 1.2;
-    border-radius: 5px;
-    background-color: rgba(0, 0, 0, 0.2);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-    height: 60%;
-    width: 90%;
-    z-index: 2;
-}
-
 .mw-khrom {
     width: 58%;
     height: 73%;
@@ -121,7 +92,6 @@
 }
 
 .map-wrapper {
-    /* opacity: 0; */
     position: relative;
     width: 90%;
     border: 2px solid red;
@@ -163,23 +133,115 @@
     cursor: crosshair;
 }
 
-.map-button {
-    margin: 10px;
+.pin-menu-wrapper {
     padding: 10px;
-    font-size: 1.2rem;
-    background-color: #fff;
+    position: absolute;
+    width: 20%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-image:linear-gradient(rgba(228, 192, 146, 0.904), rgb(233, 223, 193));
+    top: 28%;
+    left: 77%;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
+}
+
+.pin-menu {
+    position: absolute;
+    width: 96%;
+    height: 96%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    background-color: rgba(59, 38, 13, 0.733);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.message-inputz {
+    border: 0 solid #ccc;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    font-size: 1.25rem;
+    color: rgb(54, 36, 20);
+    text-align: left;
+    padding: 5px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    line-height: 1.2;
+    background-image:linear-gradient(rgba(228, 192, 146, 0.904), rgb(233, 223, 193));
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    width: 90%;
+    height: 60%;
+    max-height: 200px;
+    z-index: 2;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.map-button {
+    margin: 2%;
+    width: 95%;
     z-index: 8;
+    appearance: button;
+    background-image: linear-gradient(to bottom, #fff, #f8eedb);
+    border: 0 solid #e5e7eb;
+    border-radius: .5rem;
+    box-sizing: border-box;
+    color: #482307;
+    cursor: pointer;
+    display: flex;
+    font-family: ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 24px;
+    padding: 1rem 1.5rem;
+    text-transform: none;
+    transition: all .1s cubic-bezier(.4, 0, .2, 1);
+    touch-action: manipulation;
+    box-shadow: -6px 8px 10px rgba(81,41,10,0.1),0px 2px 2px rgba(81,41,10,0.2);
+    border: 2px solid transparent;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
-.map-button:hover {
-    background-color: #f0f0f0;
+.map-button:first-of-type {
+    margin-top: 15px;
+  }
+
+.map-button:last-of-type {
+    margin-bottom: 15px;
+  }
+
+.map-button:active {
+  background-color: #f3f4f6;
+  box-shadow: -1px 2px 5px rgba(81,41,10,0.15),0px 1px 1px rgba(81,41,10,0.15);
+  transform: translateY(0.125rem);
 }
 
-.default-view {
-    top: 20%;
-    left: 70%;
+.map-button:focus {
+  box-shadow: rgba(72, 35, 7, .46) 0 0 0 4px, -6px 8px 10px rgba(81,41,10,0.1), 0px 2px 2px rgba(81,41,10,0.2);
 }
 
+@media (min-width: 1920px) {
+    .pin-menu-wrapper {
+        width: 17%; 
+        height: 40%;
+        left: 78%;
+        top: 32%;
+    }
+
+    .message-inputz {
+        font-size: 1.5rem; /* Increase font size for larger screens */
+        padding: 1rem; /* Increase padding for larger screens */
+    }
+
+    .map-button {
+        font-size: 1.25rem; /* Increase font size for larger screens */
+        padding: 1rem 1.5rem; /* Increase padding for larger screens */
+    }
+}
