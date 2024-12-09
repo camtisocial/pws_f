@@ -1,11 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from 'react-leaflet';
 import { v4 as uuidv4 } from 'uuid';
+import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../components/HomeButton';
 import '../css/guestBook.css';
 import HomeButton from '../components/HomeButton';
 import SimpleModal from '../components/SimpleModal';
+
+const iconUrls = [
+  '/images/yellowPin.png',
+  '/images/redPin.png',
+  '/images/bluePin.png',
+  '/images/greenPin.png'
+];
+
+const getRandomIconUrl = () => {
+  const randomIndex = Math.floor(Math.random() * iconUrls.length);
+  return iconUrls[randomIndex];
+};
 
 function GuestBook() {
   const [position, setPosition] = useState([40, 0]);
@@ -15,7 +28,14 @@ function GuestBook() {
   const [pins, setPins] = useState([]);
   const [userNote, setUserNote] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const mapContainer = document.querySelector('.leaflet-container');
+  const [currentColor, setCurrentColor] = useState(null);
+
+ const customIcon = L.icon({
+  iconUrl: currentColor,
+  iconSize: [32, 32],
+  iconAnchor: [16, 32], 
+  popupAnchor: [0, -32] 
+}); const mapContainer = document.querySelector('.leaflet-container');
 
   useEffect(() => {
     const fetchPins = async () => {
@@ -63,6 +83,7 @@ function GuestBook() {
           const { lat, lng } = e.latlng;
           setPinPosition([lat, lng]);
           setPinMode(false);
+          setCurrentColor(getRandomIconUrl());
           mapContainer.style.cursor = 'grab';
           console.log(`Marker set at: ${lat}, ${lng}`);
         }
@@ -91,11 +112,16 @@ function GuestBook() {
         latitude: pinPosition[0],
         longitude: pinPosition[1],
         note: userNote,
-      };
+        color: currentColor,
+      }; 
+
       /*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
       lambda call
       function savePin(newPin) {}
       @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+      setPins((prevPins) => [...prevPins, newPin]);
+      setPinPosition(null);
       setUserNote('');
     } else if (!pinPosition && !userNote) {
       alert("Missing pin and message.");
@@ -110,8 +136,14 @@ function GuestBook() {
 
   function displayPins() {
     return pins.map((pin) => {
+      const pinIcon = L.icon({
+        iconUrl: pin.color,
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32]
+      });
       return (
-        <Marker key={pin.id} position={[pin.latitude, pin.longitude]}>
+        <Marker key={pin.id} position={[pin.latitude, pin.longitude]} icon={pinIcon}>
           <Popup>{pin.note}</Popup>
         </Marker>
       );
@@ -159,7 +191,7 @@ function GuestBook() {
                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
              />
              {pinPosition && (
-                <Marker position={pinPosition}>
+                <Marker position={pinPosition} icon={customIcon} >
                    <Popup>
                      {userNote}
                    </Popup>
