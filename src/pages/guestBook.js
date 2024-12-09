@@ -5,6 +5,7 @@ import 'leaflet/dist/leaflet.css';
 import '../components/HomeButton';
 import '../css/guestBook.css';
 import HomeButton from '../components/HomeButton';
+import SimpleModal from '../components/SimpleModal';
 
 function GuestBook() {
   const [position, setPosition] = useState([40, 0]);
@@ -13,6 +14,7 @@ function GuestBook() {
   const [pinMode, setPinMode] = useState(false);
   const [pins, setPins] = useState([]);
   const [userNote, setUserNote] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const mapContainer = document.querySelector('.leaflet-container');
 
   useEffect(() => {
@@ -117,12 +119,18 @@ function GuestBook() {
   }
 
   function handleQuestionClick() {
-    //TODO add a modal to display the instructions
-    alert("Hover over pins in the map to read messages from other visitors, or drop a pin and leave a message of your own!");
+    setIsModalOpen(true); 
+  }
+
+  function closeModal() {
+    setIsModalOpen(false);
   }
 
   return (
     <div className="guestBook">
+      <SimpleModal isOpen={isModalOpen} onClose={closeModal}>
+        <p>Hover over pins in the map to read messages from other visitors, or drop a pin and leave a message of your own!</p>
+      </SimpleModal>
         <div className="question-mark-wrapper">
           <img className="question-mark" src="/images/questionMark.png" alt="Question Mark" onClick={handleQuestionClick} />
         </div>

@@ -1,7 +1,7 @@
 :root {
     --dash-size: 5px;
     --theme-color: mediumseagreen;
-    --fill-color: rgb(133, 101, 60);
+    --fill-color: rgb(105, 81, 48);
     --lighten-theme-color: #8fdcb3; /* lighten(mediumseagreen, 20%) */
     --darken-theme-color: #2e8b57; /* darken(mediumseagreen, 20%) */
   }
@@ -71,7 +71,7 @@
     width: 58%;
     height: 73%;
     margin-top: 9%;
-    margin-left: 18%;
+    margin-left: 20%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -143,7 +143,7 @@
     align-items: center;
     background-image:linear-gradient(rgba(228, 192, 146, 0.904), rgb(233, 223, 193));
     top: 28%;
-    left: 77%;
+    left: 77.75%;
     border-radius: 10px;
 }
 
@@ -154,7 +154,7 @@
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-    background-color: rgba(59, 38, 13, 0.733);
+    background-color: var(--fill-color);
     display: flex;
     flex-direction: column;
     align-items: center;
