@@ -8,11 +8,15 @@ import '../css/guestBook.css';
 import HomeButton from '../components/HomeButton';
 import SimpleModal from '../components/SimpleModal';
 
+
+//FIX BUG WHERE SETTING PIN OR PRESSING GRAB PIN RESETS MAP
+
 const iconUrls = [
   '/images/yellowPin.png',
-  '/images/redPin.png',
+  '/images/orangePin.png',
   '/images/bluePin.png',
-  '/images/greenPin.png'
+  '/images/greenPin.png',
+  '/images/purplePin.png'
 ];
 
 const getRandomIconUrl = () => {
@@ -30,11 +34,12 @@ function GuestBook() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentColor, setCurrentColor] = useState(null);
 
- const customIcon = L.icon({
+ let customIcon = L.icon({
   iconUrl: currentColor,
   iconSize: [32, 32],
   iconAnchor: [16, 32], 
   popupAnchor: [0, -32] 
+
 }); const mapContainer = document.querySelector('.leaflet-container');
 
   useEffect(() => {
@@ -80,10 +85,10 @@ function GuestBook() {
     useMapEvents({
       click(e) {
         if (pinMode) {
+          setCurrentColor(getRandomIconUrl());
           const { lat, lng } = e.latlng;
           setPinPosition([lat, lng]);
           setPinMode(false);
-          setCurrentColor(getRandomIconUrl());
           mapContainer.style.cursor = 'grab';
           console.log(`Marker set at: ${lat}, ${lng}`);
         }
