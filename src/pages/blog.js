@@ -3,10 +3,12 @@ import '../css/blog.css';
 import CardTilt from '../components/CardTilt';
 import frontMatter from 'front-matter';
 import HomeButton from '../components/HomeButton';
+import { useNavigate } from 'react-router-dom';
 
 
 
 function Blog() {
+  const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
 
   // useEffect(() => {
@@ -57,18 +59,19 @@ This is the content of the second post.
   setPosts(parsedPosts);
 }, []);
 
-
+const handleCardClick = (filename) => {
+  navigate(`/blog/${filename}`);
+};
 
   return (
     <div className="blog">
       <div className="blog-list">
         {posts.map((post) => (
           <CardTilt key={post.filename}>
-            <div className="blog-card" key={post.filename}>
+            <div className="blog-card" key={post.filename} onClick={() => handleCardClick(post.filename)}>
               <h2>{post.title}</h2>
               <p>{post.date}</p>
               <p>{post.tags.join(', ')}</p>
-              <a href={`/blog/${post.filename}`}>Read more</a>
             </div>
           </CardTilt>
         ))}

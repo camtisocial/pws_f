@@ -154,7 +154,7 @@ const useCardEffects = (selectedCard, setSelectedCard, overlayBottom, overlayTop
               console.log('No navigation for this card');
               break;
           }
-        }, 500); // Adjust the timeout if needed
+        }, 500); 
       }
     }
 
