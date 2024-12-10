@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../css/blog.css';
+import CardTilt from '../components/CardTilt';
 import frontMatter from 'front-matter';
 import HomeButton from '../components/HomeButton';
 
@@ -62,12 +63,14 @@ This is the content of the second post.
     <div className="blog">
       <div className="blog-list">
         {posts.map((post) => (
-          <div className="blog-card" key={post.filename}>
-            <h2>{post.title}</h2>
-            <p>{post.date}</p>
-            <p>{post.tags.join(', ')}</p>
-            <a href={`/blog/${post.filename}`}>Read more</a>
-          </div>
+          <CardTilt key={post.filename}>
+            <div className="blog-card" key={post.filename}>
+              <h2>{post.title}</h2>
+              <p>{post.date}</p>
+              <p>{post.tags.join(', ')}</p>
+              <a href={`/blog/${post.filename}`}>Read more</a>
+            </div>
+          </CardTilt>
         ))}
       </div>
 

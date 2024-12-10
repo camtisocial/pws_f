@@ -1,0 +1,26 @@
+.rotating-card-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .rotating-card {
+    position: relative;
+    z-index: 2;
+    transition: transform 60ms ease;
+    /* border: 2px solid green; */
+    width: 12vw;
+    display: flex;
+  }
+  
+  .background-shadow {
+    position: absolute;
+    top: 1.5vw;
+    left: 1vw;
+    width: 11vw;
+    height: 11vw;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    z-index: 1;
+    transition: transform 60ms ease, opacity 0.5s ease, height 500ms ease;
+    opacity: 0;
+  }

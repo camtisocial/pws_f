@@ -65,30 +65,6 @@ function Hand() {
       card.addEventListener('mouseover', handleMouseOver);
       card.addEventListener('click', (e) => {
         if (selectedCard === card) {
-          // setTimeout(() => {
-          const altText = selectedCard.getAttribute('alt');
-          // switch (altText) {
-          //   case 'Contact':
-          //     navigate('/contact');
-          //     console.log('Clicked on contact card');
-          //     break;
-          //   case 'Blog':
-          //     navigate('/blog');
-          //     console.log('Clicked on blog card');
-          //     break;
-          //   case 'About':
-          //     navigate('/about');
-          //     console.log('Clicked on about card');
-          //     break;
-          //   case 'GuestBook':
-          //     navigate('/guestbook');
-          //     console.log('Clicked on guestBook card');
-          //     break;
-          //   default:
-          //     break;
-          // }
-        // }, 1500);
-
           console.log('Clicked on the selected card:opacity', selectedCard);
         } else {
           setSelectedCard(card);
