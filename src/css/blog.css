@@ -60,29 +60,31 @@
     align-items: center;
 } 
 
-.blog-card::after {
-    position: absolute;
-    background-color: rgba(66, 66, 66, 0.808);
+.blog-card-image {
+    position: relative;
     height: 90%;
     width: 90%;
-    opacity: .5;
-    background-image: url('https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExY2pjeXNpMWZrdmR5NGlxNG5wdW13YjJjZmk1dHE5MTg5Z2t1eTVnMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Rlwz4m0aHgXH13jyrE/giphy.webp');
+    opacity: .8;
     background-size: cover;
     background-repeat: no-repeat;
     border-radius: 10px;
-    content: '';
     display: flex;
     justify-content: center;
     align-items: center;
-    color: white;
-    font-size: 1.5rem;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    font-weight: bold;
 }
 
 .blog-card-content {
-    position: relative;
+    width: 60%;
+    height: 60%;
+    position: absolute;
+
     padding: 10%;
     z-index: 10;
+    opacity: 1;
+
+    font-size: 1rem;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: bold;
     color: white;
 }
+
