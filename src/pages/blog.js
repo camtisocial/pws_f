@@ -3,6 +3,7 @@ import '../css/blog.css';
 import CardTilt from '../components/CardTilt';
 import fm from 'front-matter';
 import HomeButton from '../components/HomeButton';
+import exampleMDX from './example.mdx';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -17,31 +18,42 @@ function Blog() {
   // }, []);
   useEffect(() => {
   const mockData = [
+//     {
+//       filename: 'FFfirst-post.mdx',
+//       title: 'My First Blog Post',
+//       date: '2024-12-01',
+//       tags: ['React', 'MDX', 'AWS'],
+//       backgroundImageUrl: 'https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExa2tybXczMGo1bDJrMXpwZTltMGhtbzJoOTdhMXNhYThjYWtmemVoYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/NoGhgVB9ybIJ2/giphy.webp',
+//       content: `
+// # My First Blog Post
+// This is the content of the first post.
+//       `,
+//     },
+
     {
-      filename: 'FFfirst-post.mdx',
+      filename: 'first-post.mdx',
       title: 'My First Blog Post',
       date: '2024-12-01',
       tags: ['React', 'MDX', 'AWS'],
       backgroundImageUrl: 'https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExa2tybXczMGo1bDJrMXpwZTltMGhtbzJoOTdhMXNhYThjYWtmemVoYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/NoGhgVB9ybIJ2/giphy.webp',
-      content: `
-# My First Blog Post
-This is the content of the first post.
-      `,
+      content: exampleMDX,
     },
 
-    {
-      filename: 'second-post.mdx',
-      title: 'My second Blog Post',
-      date: '2024-12-01',
-      tags: ['React', 'MDX', 'AWS'],
-      backgroundImageUrl: 'https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExY2pjeXNpMWZrdmR5NGlxNG5wdW13YjJjZmk1dHE5MTg5Z2t1eTVnMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Rlwz4m0aHgXH13jyrE/giphy.webp',
-      content: `
-# My First Blog Post
-This is the content of the first post.
-      `,
-    },
+//     {
+//       filename: 'second-post.mdx',
+//       title: 'My second Blog Post',
+//       date: '2024-12-01',
+//       tags: ['React', 'MDX', 'AWS'],
+//       backgroundImageUrl: 'https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExY2pjeXNpMWZrdmR5NGlxNG5wdW13YjJjZmk1dHE5MTg5Z2t1eTVnMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Rlwz4m0aHgXH13jyrE/giphy.webp',
+//       content: `
+// # My First Blog Post
+// This is the content of the second post.
+//       `,
+//     },
 
   ];
+
+  console.log(mockData[0].content);
 
   setPosts(mockData);
 }, []);
@@ -64,8 +76,16 @@ useEffect(() => {
 }, [posts]);
 
 
-const handleCardClick = (filename) => {
-  navigate(`/blog/${filename}`);
+// const handleCardClick = (post) => {
+//   navigate(`/blogPost/${post.filename}`, { state: { mdxContent: post.content} });
+//  };
+
+const handleCardClick = async (post) => {
+  const response = await fetch(post.content);
+  const mdxContent = await response.text();
+  console.log('Navigating to:', `/blog/${post.filename}`);
+  console.log('Passing state:', { mdxContent });
+  navigate(`/blogPost/${post.filename}`, { state: { mdxContent } });
 };
 
   return (
@@ -77,7 +97,7 @@ const handleCardClick = (filename) => {
             <div
              className="blog-card"
              key={post.filename} 
-             onClick={() => handleCardClick(post.filename)}>
+             onClick={() => handleCardClick(post)}>
               <div 
               className="blog-card-image"
               style={{backgroundImage: `url(${post.backgroundImageUrl})`}}>

@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Home from './pages/home';
 import GuestBook from './pages/guestBook';
 import Blog from './pages/blog';
+import BlogPost from './pages/blogPost';
 import Contact from './pages/contact';
 import About from './pages/about';
 
@@ -15,6 +16,7 @@ function App() {
         <Route path="/guestBook" element={<GuestBook/>} />
         <Route path="/blog" element={<Blog/>} />
         <Route path="/contact" element={<Contact/>} />
+        <Route path="/blogPost/:filename" element={<BlogPost />} />
       </Routes>
     </div>
   );

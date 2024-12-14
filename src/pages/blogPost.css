@@ -1,0 +1,9 @@
+.blog-postzz {
+    background-image: url('../../public/images/background1.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    overflow: hidden;
+    height: 100vh;
+    width: 100%;
+}
