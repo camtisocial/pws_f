@@ -24,6 +24,7 @@ const BlogPost = () => {
     compileMDX();
   }, [mdxContent]);
 
+  if (!MDXContent) return <p>Loading...</p>;
 
   return (
     <div className="blog-postzz">
