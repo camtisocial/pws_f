@@ -45,8 +45,9 @@ function GuestBook() {
   useEffect(() => {
     const fetchPins = async () => {
       try {
-        const response = await fetch('aws-endpoint-url');
+        const response = await fetch('https://xxn01xl3vl.execute-api.us-east-2.amazonaws.com/guestBook');
         const data = await response.json();
+        console.log(data);
         setPins(data);
       } catch (error) {
         console.error('Error fetching pins:', error);
@@ -116,14 +117,15 @@ function GuestBook() {
         id: uuidv4(),
         latitude: pinPosition[0],
         longitude: pinPosition[1],
-        note: userNote,
+        message: userNote,
         color: currentColor,
       }; 
 
-      /*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-      lambda call
-      function savePin(newPin) {}
-      @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+      fetch("https://xxn01xl3vl.execute-api.us-east-2.amazonaws.com/guestBook", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newPin),
+      })
 
       setPins((prevPins) => [...prevPins, newPin]);
       setPinPosition(null);
@@ -149,7 +151,7 @@ function GuestBook() {
       });
       return (
         <Marker key={pin.id} position={[pin.latitude, pin.longitude]} icon={pinIcon}>
-          <Popup>{pin.note}</Popup>
+          <Popup>{pin.message}</Popup>
         </Marker>
       );
     });
