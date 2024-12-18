@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from 'react-leaflet';
 import { v4 as uuidv4 } from 'uuid';
 import L from 'leaflet';
@@ -28,11 +28,11 @@ function GuestBook() {
   const [position, setPosition] = useState([40, 0]);
   const [zoom, setZoom] = useState(2);
   const [pinPosition, setPinPosition] = useState(null);
-  const [pinMode, setPinMode] = useState(false);
   const [pins, setPins] = useState([]);
   const [userNote, setUserNote] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentColor, setCurrentColor] = useState(null);
+  const pinModeRef = useRef(false); 
 
  let customIcon = L.icon({
   iconUrl: currentColor,
@@ -85,11 +85,11 @@ function GuestBook() {
   function AddPin() {
     useMapEvents({
       click(e) {
-        if (pinMode) {
+        if (pinModeRef.current) {
           setCurrentColor(getRandomIconUrl());
           const { lat, lng } = e.latlng;
           setPinPosition([lat, lng]);
-          setPinMode(false);
+          pinModeRef.current = false;
           mapContainer.style.cursor = 'grab';
           console.log(`Marker set at: ${lat}, ${lng}`);
         }
@@ -102,7 +102,7 @@ function GuestBook() {
     if (mapContainer) {
         mapContainer.style.cursor = 'crosshair';
       }
-    setPinMode(true);
+    pinModeRef.current = true;
   }
 
   function handleChange(event) {
@@ -168,7 +168,7 @@ function GuestBook() {
   return (
     <div className="guestBook">
       <SimpleModal isOpen={isModalOpen} onClose={closeModal}>
-        <p>Hover over pins in the map to read messages from other visitors, or drop a pin and leave a message of your own!</p>
+        <p>Click on pins in the map to read messages from other visitors, or drop a pin and leave a message of your own</p>
       </SimpleModal>
         <div className="question-mark-wrapper">
           <img className="question-mark" src="/images/questionMark.png" alt="Question Mark" onClick={handleQuestionClick} />

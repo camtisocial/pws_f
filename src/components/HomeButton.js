@@ -1,12 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './HomeButton.css'; // Import the CSS file
+import './HomeButton.css';
 
 function HomeButton() {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(-1); // Navigate back to the previous page
+    navigate('/');
   };
 
   return (

@@ -2,15 +2,45 @@ import React, { useState, useEffect } from 'react';
 import '../components/HomeButton';
 import '../css/contact.css';
 import HomeButton from '../components/HomeButton';
+import SimpleModal from '../components/SimpleModal';
 
 function Contact() {
   const [message, setMessage] = useState('');
+  const [modalOpen, setModalOpen] = useState(false);
+  const [secondModalOpen, setSecondModalOpen] = useState(false);
   const [notification, setNotification] = useState('');
 
   useEffect(() => {
     const pressElement = document.querySelector('.press');
     const paperElement = document.querySelector('.paper');
     const copyElements = document.querySelectorAll('[data-copy]');
+
+    const handlePressClick = (event) => {
+      if (message.trim()==='') {
+         setSecondModalOpen(true);
+         return;
+      } else {
+         const sendElement = document.querySelector('.send');
+         const sentElement = document.querySelector('.sent');
+         const pressElement = event.currentTarget;
+
+         pressElement.style.animation = 'pressAnimation .3s linear forwards';
+
+         setTimeout(() => {
+           sendElement.style.opacity = 0;
+           sentElement.style.opacity = 1;
+         }, 150);
+
+         pressElement.addEventListener('animationend', () => {
+           pressElement.style.animation = '';
+         }, { once: true });
+
+         sendEmail(message);
+         setMessage('');
+         console.log(message);
+     }
+    };
+
 
     if (paperElement) {
       setTimeout(() => {
@@ -34,32 +64,20 @@ function Contact() {
         element.removeEventListener('click', handleCopyClick);
       });
     };
-  }, []);
+  }, [message]);
 
-  const handlePressClick = (event) => {
-    const sendElement = document.querySelector('.send');
-    const sentElement = document.querySelector('.sent');
-    const pressElement = event.currentTarget;
-    console.log("PRESSED PRESSED PRESSED");
-    pressElement.style.animation = 'pressAnimation .3s linear forwards';
-
-    setTimeout(() => {
-      sendElement.style.opacity = 0;
-      sentElement.style.opacity = 1;
-    }, 150);
-
-    pressElement.addEventListener('animationend', () => {
-      pressElement.style.animation = '';
-    }, { once: true });
-
-    /*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-                    Add lambda call here
-
-    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
-
-    setMessage('');
-  };
+  const sendEmail = async (message) => {
+      const response = await fetch('https://xxn01xl3vl.execute-api.us-east-2.amazonaws.com/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message }),
+      });
+      if (!response.ok) {
+        setModalOpen(true);
+      }
+  }
 
   const handleCopyClick = (event) => {
     const text = event.currentTarget.getAttribute('data-copy');
@@ -75,8 +93,25 @@ function Contact() {
     setMessage(e.target.value);
   };
 
+  function closeModal() {
+    setModalOpen(false);
+  }
+
+  function closeSecondModal() {
+    setSecondModalOpen(false);
+  }
+
   return (
     <div className="contact">
+
+      <SimpleModal isOpen={modalOpen} onClose={closeModal}>
+        <p>Email failed to send. Please try again later.</p>
+      </SimpleModal>
+
+      <SimpleModal isOpen={secondModalOpen} onClose={closeSecondModal}>
+        <p>Message is empty</p>
+      </SimpleModal>
+
       <div className="border1">
         <div className="s-container">
           <div className="press" style={{ backgroundImage: "url('images/press2.png')" }}></div>
@@ -90,7 +125,7 @@ function Contact() {
           </h1>
           <ul className="contact-info">
             <li><a href="https://github.com/camtisocial" target="_blank" rel="noopener noreferrer">Github</a></li>
-            <li><a href="https://www.linkedin.com/in/cameron-thompson-1b1b1b1b1/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            <li><a href="https://www.linkedin.com/in/cameron-thompson-551a32249/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
             <li style= {{cursor: 'copy'}}><a data-copy="(208)-380-4866">(208)-380-4866</a></li>
             <li style= {{cursor: 'copy'}}><a data-copy="thompsonca99@gmail.com">thompsonca99@gmail.com</a></li>
           </ul>

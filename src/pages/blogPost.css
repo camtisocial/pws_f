@@ -7,3 +7,34 @@
     height: 100vh;
     width: 100%;
 }
+
+
+.FUCK-CSS-title {
+    text-align: center;
+    font-size: 3rem;
+    margin-top: 20px;
+    color: white;
+    
+
+}
+
+.blog-post-background {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 90vh;
+    width: 70%;
+    display: flex;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.article {
+    /* border: 2px solid purple; */
+    width: 90%;
+    height: 80%;
+    overflow: auto;
+}

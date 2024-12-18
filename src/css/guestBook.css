@@ -6,8 +6,9 @@
     --darken-theme-color: #2e8b57; /* darken(mediumseagreen, 20%) */
   }
 
+
 .guestBook {
-    background-image: url('../../public/images/background1.png');
+    background-image: url('../../public/images/finalBackgroundgreen.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;

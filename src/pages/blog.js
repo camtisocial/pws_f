@@ -3,6 +3,7 @@ import '../css/blog.css';
 import CardTilt from '../components/CardTilt';
 import HomeButton from '../components/HomeButton';
 import LoadingModal from '../components/LoadingModal';
+import newPost from './newPost.mdx'; 
 import { useNavigate } from 'react-router-dom';
 
 
@@ -16,7 +17,21 @@ function Blog() {
       try {
          const response = await fetch('https://xxn01xl3vl.execute-api.us-east-2.amazonaws.com/fetchMDX');
          const data = await response.json();
-         setPosts(data);
+
+         const tempResponse = await fetch(newPost);
+         const tempContent = await tempResponse.text();
+
+         const localPost = {
+          title: 'Draft: New Blog Post',
+          date: '2024-12-01',
+          tags: ['Draft', 'Local'],
+          content: tempContent,
+        };
+
+        const combinedPosts = [localPost, ...data];
+
+        //  setPosts(data);
+         setPosts(combinedPosts);
          setLoading(false);
          console.log(data);
       } catch (error) {
