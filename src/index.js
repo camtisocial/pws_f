@@ -1,4 +1,5 @@
 import { BrowserRouter } from 'react-router-dom';
+import './css/sriracha.css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';

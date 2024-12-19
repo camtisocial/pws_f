@@ -1,6 +1,6 @@
 @font-face {
-  font-family: 'YourCustomFont';
-  src: url('/fonts/YourCustomFont.otf') format('opentype');
+  font-family: 'SrirachaFont';
+  src: url('../../public/fonts/SrirachaDisplay-Regular.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
 }

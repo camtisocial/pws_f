@@ -6,6 +6,7 @@ import Blog from './pages/blog';
 import BlogPost from './pages/blogPost';
 import Contact from './pages/contact';
 import About from './pages/about';
+import './css/sriracha.css';
 
 function App() {
   return (
