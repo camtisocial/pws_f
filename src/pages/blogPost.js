@@ -4,6 +4,8 @@ import { useLocation } from 'react-router-dom';
 import { MDXProvider } from '@mdx-js/react';
 import { evaluate } from '@mdx-js/mdx';
 import HomeButton from '../components/HomeButton';
+import Quote from '../components/quoteBlock';
+import TextDivider from '../components/TextDivider';
 import * as runtime from 'react/jsx-runtime';
 
 const BlogPost = () => {
@@ -14,7 +16,10 @@ const BlogPost = () => {
 
   const components =  useMemo(() => ({
     HomeButton, 
+    TextDivider,
+    Quote,
     h1: (props) => <h1 className="FUCK-CSS-title" {...props} />,
+
   }), []);
 
 

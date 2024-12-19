@@ -1,3 +1,4 @@
+
 .blog-postzz {
     background-image: url('../../public/images/background1.png');
     background-size: cover;
@@ -12,15 +13,12 @@
 .FUCK-CSS-title {
     text-align: center;
     font-size: 3rem;
-    margin-top: 20px;
-    color: white;
-    
-
+    margin-top: 2vw;
+    color: beige;
 }
 
 .blog-post-background {
     position: absolute;
-    background-color: rgba(0, 0, 0, 0.5);
     height: 90vh;
     width: 70%;
     display: flex;
@@ -30,11 +28,52 @@
     border-radius: 10px;
     justify-content: center;
     align-items: center;
+
+    --s: 2vw;  
+    --w: 70%; 
+    --c:#211322;
+    
+    width: round(var(--w),2*var(--s)); 
+    aspect-ratio: 1;
+    object-fit: cover;
+    padding: var(--s);
+    border-radius: calc(1.5*var(--s));
+    --R:calc(var(--s)/sqrt(2)) at;
+    --g:radial-gradient(var(--R) 50%,var(--c) calc(100% - 1px),#0000) 
+       0 0/calc(2*var(--s)) calc(2*var(--s));
+    --_c:#0000 100%,var(--c) calc(100% + 1px);
+    --_b:calc(2*var(--s)) calc(51% - var(--s)/2) repeat-x;
+    background: var(--g),
+      radial-gradient(var(--R) 50% calc(100% + var(--s)/2),var(--_c)) 
+       var(--s) calc(100% - var(--s)/2)/var(--_b),
+      radial-gradient(var(--R) 50% calc(      var(--s)/-2),var(--_c)) 
+       var(--s) calc(       var(--s)/2)/var(--_b);
+    --_m:var(--s)/calc(51% - var(--s)/2) calc(2*var(--s)) repeat-y;
+    mask: var(--g),
+      radial-gradient(var(--R) calc(100% + var(--s)/2) 50%,var(--_c))
+       calc(100% - var(--s)/2) var(--_m),
+      radial-gradient(var(--R) calc(      var(--s)/-2) 50%,var(--_c)) 
+       calc(       var(--s)/2) var(--_m);
+}
+
+.blog-post-background::after {
+    position: absolute;
+    height: 85%;
+    width: 90%;
+    content: '';
+    border-radius: 10px;
+    background-image: url('../../public/images/squareDots.png');
+    border: 4px solid rgb(100, 100, 100);
+    box-shadow: 0 0 1.5vw 1vw rgba(96, 25, 129, 0.5);
 }
 
 .article {
-    /* border: 2px solid purple; */
+    color: white;
+    padding: 10px;
     width: 90%;
-    height: 80%;
+    height: 90%;
     overflow: auto;
+    z-index: 10;
 }
+
+
