@@ -3,9 +3,15 @@ import '../css/blog.css';
 import CardTilt from '../components/CardTilt';
 import HomeButton from '../components/HomeButton';
 import LoadingModal from '../components/LoadingModal';
-import newPost from './newPost.mdx'; 
 import { useNavigate } from 'react-router-dom';
 
+const backgroundColors = [
+  '--blue-background-image',
+  '--green-background-image',
+  '--purple-background-image',
+  '--orange-background-image',
+  '--red-background-image',
+];
 
 function Blog() {
   const navigate = useNavigate();
@@ -18,20 +24,7 @@ function Blog() {
          const response = await fetch('https://xxn01xl3vl.execute-api.us-east-2.amazonaws.com/fetchMDX');
          const data = await response.json();
 
-         const tempResponse = await fetch(newPost);
-         const tempContent = await tempResponse.text();
-
-         const localPost = {
-          title: 'Draft: New Blog Post',
-          date: '2024-12-01',
-          tags: ['Draft', 'Local'],
-          content: tempContent,
-        };
-
-        const combinedPosts = [localPost, ...data];
-
-        //  setPosts(data);
-         setPosts(combinedPosts);
+         setPosts(data);
          setLoading(false);
          console.log(data);
       } catch (error) {
@@ -78,6 +71,7 @@ const handleCardClick = (post) => {
           <CardTilt key={post.title}>
             <div
              className="blog-card"
+             style={{ backgroundImage: `var(${backgroundColors[post.color]})` }}
              key={post.title} 
              onClick={_handleCardClick}>
               <div 

@@ -1,5 +1,6 @@
 .contact {
-    background-image: url('../../public/images/finalBackgroundgreen.png');
+    /* background-image: url('../../public/images/finalBackgroundgreen.png'); */
+    background-image: linear-gradient(rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.3) 100%), url('../../public/images/finalBackgroundgreen.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;

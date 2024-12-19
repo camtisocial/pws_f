@@ -1,6 +1,6 @@
 
 .blog-postzz {
-    background-image: url('../../public/images/background1.png');
+    background-image: linear-gradient(rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.3) 100%), url('../../public/images/finalBackgroundgreen.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -65,6 +65,10 @@
     background-image: url('../../public/images/squareDots.png');
     border: 4px solid rgb(100, 100, 100);
     box-shadow: 0 0 1.5vw 1vw rgba(96, 25, 129, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .article {
